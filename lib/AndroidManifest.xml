@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copy parts as needed in you application's Manifest -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.ymkm.lib" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="15" />
+
+    <!-- ************ org.ymkm.lib.providers ************ -->
+
+
+    <!-- Reference an asset file as its Uri : content://<ASSETS_AUTHORITY>/path/to/file -->
+    <!--
+    <provider
+        android:name="org.ymkm.lib.providers.LocalAssetsProvider"
+        android:authorities="org.ymkm.lib.local.assets.provider"
+    	android:exported="false"
+        android:label="Allow assets files to be referenced as Uri in ImageView..." >
+    </provider>
+    -->
+
+
+    <!-- Reference a cached file file as its Uri : content://<CACHE_AUTHORITY>/path/to/file -->
+    <!--
+    <provider
+        android:name="org.ymkm.lib.providers.LocalCacheProvider"
+        android:authorities="org.ymkm.lib.local.cache.provider"
+    	android:exported="false"
+        android:label="Allow cached files to be referenced as Uri in ImageView..." >
+    </provider>
+    -->
+
+
+    <!-- ************ org.ymkm.lib.env ************ -->
+
+
+    <!-- dev, stg, prod, as defined in sample arrays.xml -->
+    <!--
+    <meta-data
+        android:name="deploy"
+        android:value="prod" />
+    -->
+
+
+    <!-- ************ org.ymkm.lib.location ************ -->
+
+
+    <!-- Needed for backoff, network based location -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
+    <!-- Needed if needsBackoff is true -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
+
+</manifest>

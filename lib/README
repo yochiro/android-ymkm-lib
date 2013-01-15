@@ -1,0 +1,34 @@
+# Android Library
+=======================
+
+Content :
+- automaton :
+  - IntentAutomaton : Provides with a Finite-State-Machine using Intents as a transition mechanism
+- controller : Message-based controller framework for android
+- env :
+  - Environment : Utility class to allow environment-specific configuration (e.g. dev/stg/prod) as String-Array
+- http :
+  - HttpRequester : HTTP Get requests performed in worker threads
+- image :
+  - ImageManager : Manages, caches, background download, resize to view size images from network/resource/assets
+- location :
+  - LocationFragment : Fragment that wraps LocationManager by implementing best practises around geolocalization.
+  - LocationConfig : Config class used by LocationFragment
+- providers :
+  - LocalAssetsProvider : Allow access to asset files using a content:// scheme URI for ImageView, MediaPlayer...
+  - LocalCacheProvider : Allow access to cache files using a content:// scheme URI for ImageView, MediaPlayer...
+- util :
+  - Base64 : Base64 with more features than the supplied one
+- view :
+  - View : Extended View with custom XML attributes
+- widget :
+  - ImageView : Extended ImageView with custom XML attributes
+  - AsyncImageView : Uses ImageManager to provide background download of images transparently
+
+# Licence
+========================
+Apache 2.0
+
+# Author
+========================
+yoann@ymkm.org

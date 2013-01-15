@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- org.ymkm.lib.env.Environment : Array sample -->
+    <!--
+    <string-array name="envs">
+        <item>dev</item>
+        <item>stg</item>
+        <item>prod</item>
+    </string-array>
+    -->
+
+</resources>
