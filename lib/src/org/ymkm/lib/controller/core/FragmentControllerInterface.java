@@ -43,8 +43,8 @@ public interface FragmentControllerInterface<FM, FT> extends MessageCallback, Ru
 	 */
 	public final static int MSG_DETACH_MESSAGE = 0x40000;
 
-	
 	public final static class CallbackMessage {
+
 		public static Message obtain(int arg1) {
 			return CallbackMessage.obtain(arg1, 0, null);
 		}
@@ -69,90 +69,111 @@ public interface FragmentControllerInterface<FM, FT> extends MessageCallback, Ru
 			return m;
 		}
 	}
-	
+
 	/**
 	 * Registers a new {@linkplain ControllableActivity} to this controller
 	 * 
-	 * @param controllable the {@linkplain ControllableActivity} to register
+	 * @param controllable
+	 *            the {@linkplain ControllableActivity} to register
 	 * @return the FragmentControllerApplication for chaining
 	 */
-	FragmentControllerInterface<FM,FT> register(ControllableActivity<FM,FT> controllable);
+	FragmentControllerInterface<FM, FT> register(ControllableActivity<FM, FT> controllable);
 
 	/**
 	 * Unregisters the {@link FragmentControllerApplication} from the current activity.
 	 * 
-	 * @param controllable the {@linkplain ControllableActivity} to unregister
+	 * @param controllable
+	 *            the {@linkplain ControllableActivity} to unregister
 	 * @return the FragmentControllerApplication for chaining
 	 */
-	FragmentControllerInterface<FM,FT> unregister(ControllableActivity<FM,FT> controllable);
+	FragmentControllerInterface<FM, FT> unregister(ControllableActivity<FM, FT> controllable);
 
-	FragmentControllerInterface<FM,FT> add(final ControllableActivity<FM,FT> controllable, FT ft, int controlId,
+	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
 			Class<? extends ControllableFragment> fragmentClass) throws ControlledFragmentException,
 			FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> add(final ControllableActivity<FM,FT> controllable, FT ft, int controlId,
+	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
 			Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread)
 			throws ControlledFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> add(final ControllableActivity<FM,FT> controllable, FT ft, int controlId,
-			int containerViewId, Class<? extends ControllableFragment> fragmentClass) throws ControlledFragmentException,
-			FragmentControllerException;
+	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, Class<? extends ControllableFragment> fragmentClass)
+			throws ControlledFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> add(final ControllableActivity<FM,FT> controllable, FT ft, int controlId,
+	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
 			int containerViewId, Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread)
 			throws ControlledFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> add(final ControllableActivity<FM,FT> controllable, FT ft, int controlId,
+	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
 			Class<? extends ControllableFragment> fragmentClass, Bundle args) throws ControlledFragmentException,
 			FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> add(final ControllableActivity<FM,FT> controllable, FT ft, int controlId,
+	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
 			Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread, Bundle args)
 			throws ControlledFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> add(final ControllableActivity<FM,FT> controllable, FT ft, int controlId,
+	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
 			int containerViewId, Class<? extends ControllableFragment> fragmentClass, Bundle args)
 			throws ControlledFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> add(final ControllableActivity<FM,FT> controllable, FT ft, int controlId,
-			int containerViewId, Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread, Bundle args)
-			throws ControlledFragmentException, FragmentControllerException;
+	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread,
+			Bundle args) throws ControlledFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> add(final ControllableActivity<FM,FT> controllable, FT ft, int controlId,
+	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
 			ControllableFragment fragment) throws ControlledFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> add(final ControllableActivity<FM,FT> controllable, FT ft, int controlId,
+	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
 			int containerViewId, ControllableFragment fragment) throws ControlledFragmentException,
 			FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> addToBackStack(FT ft, String name) throws FragmentControllerException;
+	FragmentControllerInterface<FM, FT> addToBackStack(FT ft, String name) throws FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> show(final ControllableActivity<FM,FT> controllable, FT ft, int controlId)
+	FragmentControllerInterface<FM, FT> show(final ControllableActivity<FM, FT> controllable, FT ft, int controlId)
 			throws FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> hide(final ControllableActivity<FM,FT> controllable, FT ft, int controlId)
+	FragmentControllerInterface<FM, FT> hide(final ControllableActivity<FM, FT> controllable, FT ft, int controlId)
 			throws FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> setTransition(FT ft, int transit) throws FragmentControllerException;
+	FragmentControllerInterface<FM, FT> setTransition(FT ft, int transit) throws FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> setTransitionStyle(FT ft, int styleRes) throws FragmentControllerException;
+	FragmentControllerInterface<FM, FT> setTransitionStyle(FT ft, int styleRes) throws FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> setCustomAnimations(FT ft, int enter, int exit) throws FragmentControllerException;
-
-	FragmentControllerInterface<FM,FT> setCustomAnimations(FT ft, int enter, int exit, int popEnter, int popExit)
+	FragmentControllerInterface<FM, FT> setCustomAnimations(FT ft, int enter, int exit)
 			throws FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> replace(final ControllableActivity<FM,FT> controllable, FT ft, int controlId,
-			int containerViewId) throws FragmentControllerException;
+	FragmentControllerInterface<FM, FT> setCustomAnimations(FT ft, int enter, int exit, int popEnter, int popExit)
+			throws FragmentControllerException;
 
-	FragmentControllerInterface<FM,FT> remove(final ControllableActivity<FM,FT> controllable, FT ft, int controlId)
+	FragmentControllerInterface<FM, FT> replace(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, Class<? extends ControllableFragment> fragmentClass)
+			throws ControlledFragmentException, FragmentControllerException;
+
+	FragmentControllerInterface<FM, FT> replace(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread)
+			throws ControlledFragmentException, FragmentControllerException;
+
+	FragmentControllerInterface<FM, FT> replace(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, Class<? extends ControllableFragment> fragmentClass, Bundle args)
+			throws ControlledFragmentException, FragmentControllerException;
+
+	FragmentControllerInterface<FM, FT> replace(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread,
+			Bundle args) throws ControlledFragmentException, FragmentControllerException;
+	
+	FragmentControllerInterface<FM, FT> replace(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, ControllableFragment fragment);
+
+	FragmentControllerInterface<FM, FT> remove(final ControllableActivity<FM, FT> controllable, FT ft, int controlId)
 			throws FragmentControllerException;
 
 	boolean hasControlId(final String controllableName, int controlId);
 
-	FragmentControllerInterface<FM,FT> addCallback(ControllableActivity<FM,FT> controllable, FragmentControllerCallbackAbstract<FM,FT> callback);
+	FragmentControllerInterface<FM, FT> addCallback(ControllableActivity<FM, FT> controllable,
+			FragmentControllerCallbackAbstract<FM, FT> callback);
 
-	FragmentControllerInterface<FM,FT> removeCallback(ControllableActivity<FM,FT> controllable, FragmentControllerCallbackAbstract<FM,FT> callback);
+	FragmentControllerInterface<FM, FT> removeCallback(ControllableActivity<FM, FT> controllable,
+			FragmentControllerCallbackAbstract<FM, FT> callback);
 
 	boolean sendTo(final String controllableName, int targetControlId, int what);
 
@@ -167,26 +188,23 @@ public interface FragmentControllerInterface<FM, FT> extends MessageCallback, Ru
 	boolean sendTo(final String controllableName, int targetControlId, int what, int arg1, int arg2, Object obj);
 
 	/**
-	 * Sends a message to this controller via its supplied {@link Messenger}
-	 * <br>
-	 * The sent message wraps the actual message that will be dispatched by the
-	 * controller, and has the following values :
+	 * Sends a message to this controller via its supplied {@link Messenger} <br>
+	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following values
+	 * :
 	 * <dl>
 	 * <dt>what</dt>
-	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the
-	 * message in the controller</dd>
+	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
 	 * <dt>arg1</dt>
 	 * <dd>The control ID : set to 0</dd>
 	 * <dt>arg2</dt>
 	 * <dd>The {@code what} passed as a parameter that needs to be dispatched</dd>
 	 * <dt>obj</dt>
-	 * <dd>{@link Message} that will get dispatched (the {@code what} will be
-	 * added to it)</dd>
+	 * <dd>{@link Message} that will get dispatched (the {@code what} will be added to it)</dd>
 	 * </dl>
-	 * obj is a message instance that will eventually contain what passed as
-	 * parameter of this method.<br>
+	 * obj is a message instance that will eventually contain what passed as parameter of this method.<br>
 	 * 
-	 * @param controllableName the controllable name to use
+	 * @param controllableName
+	 *            the controllable name to use
 	 * @param what
 	 *            message ID to get dispatched by the controller
 	 * @return {@code true} if message could be sent, {@code false} otherwise
@@ -194,26 +212,23 @@ public interface FragmentControllerInterface<FM, FT> extends MessageCallback, Ru
 	boolean send(String controllableName, int what);
 
 	/**
-	 * Sends a message to this controller via its supplied {@link Messenger}
-	 * <br>
-	 * The sent message wraps the actual message that will be dispatched by the
-	 * controller, and has the following values :
+	 * Sends a message to this controller via its supplied {@link Messenger} <br>
+	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following values
+	 * :
 	 * <dl>
 	 * <dt>what</dt>
-	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the
-	 * message in the controller</dd>
+	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
 	 * <dt>arg1</dt>
 	 * <dd>The control ID : set to 0</dd>
 	 * <dt>arg2</dt>
 	 * <dd>The {@code what} passed as a parameter that needs to be dispatched</dd>
 	 * <dt>obj</dt>
-	 * <dd>{@link Message} that will get dispatched (the {@code what} will be
-	 * added to it)</dd>
+	 * <dd>{@link Message} that will get dispatched (the {@code what} will be added to it)</dd>
 	 * </dl>
-	 * obj is a message instance that will eventually contain what, arg1 passed
-	 * as parameters of this method.<br>
+	 * obj is a message instance that will eventually contain what, arg1 passed as parameters of this method.<br>
 	 * 
-	 * @param controllableName the controllable name to use
+	 * @param controllableName
+	 *            the controllable name to use
 	 * @param what
 	 *            message ID to get dispatched by the controller
 	 * @param arg1
@@ -223,26 +238,23 @@ public interface FragmentControllerInterface<FM, FT> extends MessageCallback, Ru
 	boolean send(String controllableName, int what, int arg1);
 
 	/**
-	 * Sends a message to this controller via its supplied {@link Messenger}
-	 * <br>
-	 * The sent message wraps the actual message that will be dispatched by the
-	 * controller, and has the following values :
+	 * Sends a message to this controller via its supplied {@link Messenger} <br>
+	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following values
+	 * :
 	 * <dl>
 	 * <dt>what</dt>
-	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the
-	 * message in the controller</dd>
+	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
 	 * <dt>arg1</dt>
 	 * <dd>The control ID : set to 0</dd>
 	 * <dt>arg2</dt>
 	 * <dd>The {@code what} passed as a parameter that needs to be dispatched</dd>
 	 * <dt>obj</dt>
-	 * <dd>{@link Message} that will get dispatched (the {@code what} will be
-	 * added to it)</dd>
+	 * <dd>{@link Message} that will get dispatched (the {@code what} will be added to it)</dd>
 	 * </dl>
-	 * obj is a message instance that will eventually contain what, obj passed
-	 * as parameters of this method.<br>
+	 * obj is a message instance that will eventually contain what, obj passed as parameters of this method.<br>
 	 * 
-	 * @param controllableName the controllable name to use
+	 * @param controllableName
+	 *            the controllable name to use
 	 * @param what
 	 *            message ID to get dispatched by the controller
 	 * @param obj
@@ -252,26 +264,23 @@ public interface FragmentControllerInterface<FM, FT> extends MessageCallback, Ru
 	boolean send(String controllableName, int what, Object obj);
 
 	/**
-	 * Sends a message to this controller via its supplied {@link Messenger}
-	 * <br>
-	 * The sent message wraps the actual message that will be dispatched by the
-	 * controller, and has the following values :
+	 * Sends a message to this controller via its supplied {@link Messenger} <br>
+	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following values
+	 * :
 	 * <dl>
 	 * <dt>what</dt>
-	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the
-	 * message in the controller</dd>
+	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
 	 * <dt>arg1</dt>
 	 * <dd>The control ID : set to 0</dd>
 	 * <dt>arg2</dt>
 	 * <dd>The {@code what} passed as a parameter that needs to be dispatched</dd>
 	 * <dt>obj</dt>
-	 * <dd>{@link Message} that will get dispatched (the {@code what} will be
-	 * added to it)</dd>
+	 * <dd>{@link Message} that will get dispatched (the {@code what} will be added to it)</dd>
 	 * </dl>
-	 * obj is a message instance that will eventually contain what, arg1, arg2
-	 * passed as parameters of this method.<br>
+	 * obj is a message instance that will eventually contain what, arg1, arg2 passed as parameters of this method.<br>
 	 * 
-	 * @param controllableName the controllable name to use
+	 * @param controllableName
+	 *            the controllable name to use
 	 * @param what
 	 *            message ID to get dispatched by the controller
 	 * @param arg1
@@ -283,26 +292,23 @@ public interface FragmentControllerInterface<FM, FT> extends MessageCallback, Ru
 	boolean send(String controllableName, int what, int arg1, int arg2);
 
 	/**
-	 * Sends a message to this controller via its supplied {@link Messenger}
-	 * <br>
-	 * The sent message wraps the actual message that will be dispatched by the
-	 * controller, and has the following values :
+	 * Sends a message to this controller via its supplied {@link Messenger} <br>
+	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following values
+	 * :
 	 * <dl>
 	 * <dt>what</dt>
-	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the
-	 * message in the controller</dd>
+	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
 	 * <dt>arg1</dt>
 	 * <dd>The control ID : set to 0</dd>
 	 * <dt>arg2</dt>
 	 * <dd>The {@code what} passed as a parameter that needs to be dispatched</dd>
 	 * <dt>obj</dt>
-	 * <dd>{@link Message} that will get dispatched (the {@code what} will be
-	 * added to it)</dd>
+	 * <dd>{@link Message} that will get dispatched (the {@code what} will be added to it)</dd>
 	 * </dl>
-	 * obj is a message instance that will eventually contain what, arg1, obj
-	 * passed as parameters of this method.<br>
+	 * obj is a message instance that will eventually contain what, arg1, obj passed as parameters of this method.<br>
 	 * 
-	 * @param controllableName the controllable name to use
+	 * @param controllableName
+	 *            the controllable name to use
 	 * @param what
 	 *            message ID to get dispatched by the controller
 	 * @param arg1
@@ -314,26 +320,23 @@ public interface FragmentControllerInterface<FM, FT> extends MessageCallback, Ru
 	boolean send(String controllableName, int what, int arg1, Object obj);
 
 	/**
-	 * Sends a message to this controller via its supplied {@link Messenger}
-	 * <br>
-	 * The sent message wraps the actual message that will be dispatched by the
-	 * controller, and has the following values :
+	 * Sends a message to this controller via its supplied {@link Messenger} <br>
+	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following values
+	 * :
 	 * <dl>
 	 * <dt>what</dt>
-	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the
-	 * message in the controller</dd>
+	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
 	 * <dt>arg1</dt>
 	 * <dd>The control ID : set to 0</dd>
 	 * <dt>arg2</dt>
 	 * <dd>The {@code what} passed as a parameter that needs to be dispatched</dd>
 	 * <dt>obj</dt>
-	 * <dd>{@link Message} that will get dispatched (the {@code what} will be
-	 * added to it)</dd>
+	 * <dd>{@link Message} that will get dispatched (the {@code what} will be added to it)</dd>
 	 * </dl>
-	 * obj is a message instance that will eventually contain what, arg1, arg2,
-	 * obj passed as parameters of this method.<br>
+	 * obj is a message instance that will eventually contain what, arg1, arg2, obj passed as parameters of this method.<br>
 	 * 
-	 * @param controllableName the controllable name to use
+	 * @param controllableName
+	 *            the controllable name to use
 	 * @param what
 	 *            message ID to get dispatched by the controller
 	 * @param arg1
@@ -345,7 +348,7 @@ public interface FragmentControllerInterface<FM, FT> extends MessageCallback, Ru
 	 * @return {@code true} if message could be sent, {@code false} otherwise
 	 */
 	boolean send(String controllableName, int what, int arg1, int arg2, Object obj);
-	
+
 	Messenger getMessengerFor(final String controllableName, int controlId);
 
 	ControllableFragment getFragmentFor(final String controllableName, int controlId);

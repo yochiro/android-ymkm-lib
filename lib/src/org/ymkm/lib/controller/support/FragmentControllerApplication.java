@@ -25,25 +25,30 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import android.app.Application;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.util.SparseArray;
-
+import org.ymkm.lib.controller.ControlledDialogFragment;
+import org.ymkm.lib.controller.ControlledFragment;
 import org.ymkm.lib.controller.core.ControllableActivity;
 import org.ymkm.lib.controller.core.ControllableFragment;
 import org.ymkm.lib.controller.core.ControlledFragmentException;
 import org.ymkm.lib.controller.core.FragmentControllerCallbackAbstract;
 import org.ymkm.lib.controller.core.FragmentControllerException;
 import org.ymkm.lib.controller.core.FragmentControllerInterface;
+
+import android.annotation.TargetApi;
+import android.app.Application;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.util.SparseArray;
 
 /**
  * TODO
@@ -57,11 +62,11 @@ public class FragmentControllerApplication extends Application {
 		_controller = new FragmentController();
 	}
 
-	public void register(ControllableActivity<FragmentManager,FragmentTransaction> controllable) {
+	public void register(ControllableActivity<FragmentManager, FragmentTransaction> controllable) {
 		_controller.register(controllable);
 	}
 
-	public void unregister(ControllableActivity<FragmentManager,FragmentTransaction> controllable) {
+	public void unregister(ControllableActivity<FragmentManager, FragmentTransaction> controllable) {
 		_controller.unregister(controllable);
 	}
 
@@ -73,9 +78,11 @@ public class FragmentControllerApplication extends Application {
 	 * TODO
 	 * 
 	 */
-	public static final class FragmentController implements FragmentControllerInterface<FragmentManager, FragmentTransaction> {
+	public static final class FragmentController implements
+			FragmentControllerInterface<FragmentManager, FragmentTransaction> {
 
 		public final static class CallbackMessage {
+
 			public static Message obtain(int arg1) {
 				return CallbackMessage.obtain(arg1, 0, null);
 			}
@@ -109,7 +116,7 @@ public class FragmentControllerApplication extends Application {
 		 * @return the FragmentControllerApplication for chaining
 		 */
 		@Override
-		public FragmentController register(ControllableActivity<FragmentManager,FragmentTransaction> controllable) {
+		public FragmentController register(ControllableActivity<FragmentManager, FragmentTransaction> controllable) {
 			Log.d("FragmentControllerApplication", "◆ register : " + controllable.getControllableName());
 
 			if (mRefCount++ <= 0) {
@@ -119,25 +126,29 @@ public class FragmentControllerApplication extends Application {
 			if (!mCallbacks.containsKey(controllable.getControllableName())) {
 				mCallbacks.put(controllable.getControllableName(),
 						new ArrayList<FragmentControllerCallbackAbstract<FragmentManager, FragmentTransaction>>());
-			} else {
+			}
+			else {
 				mCallbacks.get(controllable.getControllableName()).clear();
 			}
 			if (!mFragments.containsKey(controllable.getControllableName())) {
 				mFragments.put(controllable.getControllableName(),
 						new SparseArray<WeakReference<ControllableFragment>>());
-			} else {
+			}
+			else {
 				mFragments.get(controllable.getControllableName()).clear();
 			}
 			if (!mMessengers.containsKey(controllable.getControllableName())) {
 				mMessengers.put(controllable.getControllableName(), new SparseArray<Messenger>());
-			} else {
+			}
+			else {
 				mMessengers.get(controllable.getControllableName()).clear();
 			}
 
 			if (null != controllable.getCallbacks(true)) {
 				for (Class<? extends FragmentControllerCallbackAbstract<FragmentManager, FragmentTransaction>> cls : controllable
 						.getCallbacks(true)) {
-					FragmentControllerCallbackAbstract<FragmentManager,FragmentTransaction> callback = newFragmentControllerCallback(controllable, cls);
+					FragmentControllerCallbackAbstract<FragmentManager, FragmentTransaction> callback = newFragmentControllerCallback(
+							controllable, cls);
 					if (null != callback) {
 						addCallback(controllable, callback);
 					}
@@ -155,7 +166,7 @@ public class FragmentControllerApplication extends Application {
 		 * @return the FragmentControllerApplication for chaining
 		 */
 		@Override
-		public FragmentController unregister(ControllableActivity<FragmentManager,FragmentTransaction> controllable) {
+		public FragmentController unregister(ControllableActivity<FragmentManager, FragmentTransaction> controllable) {
 			Log.d("FragmentControllerApplication", "◆ unregister : " + controllable.getControllableName());
 
 			if (mCallbacks.containsKey(controllable.getControllableName())) {
@@ -176,23 +187,24 @@ public class FragmentControllerApplication extends Application {
 		}
 
 		@Override
-		public FragmentController add(final ControllableActivity<FragmentManager,FragmentTransaction> controllable, FragmentTransaction ft,
-				int controlId, Class<? extends ControllableFragment> fragmentClass) throws ControlledFragmentException,
-				FragmentControllerException {
+		public FragmentController add(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
+				FragmentTransaction ft, int controlId, Class<? extends ControllableFragment> fragmentClass)
+				throws ControlledFragmentException, FragmentControllerException {
 			return add(controllable, ft, controlId, 0, fragmentClass, false);
 		}
 
 		@Override
-		public FragmentController add(final ControllableActivity<FragmentManager,FragmentTransaction> controllable, FragmentTransaction ft,
-				int controlId, Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread)
-				throws ControlledFragmentException, FragmentControllerException {
+		public FragmentController add(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
+				FragmentTransaction ft, int controlId, Class<? extends ControllableFragment> fragmentClass,
+				boolean runsInNewThread) throws ControlledFragmentException, FragmentControllerException {
 			return add(controllable, ft, controlId, 0, fragmentClass, runsInNewThread);
 		}
 
 		@Override
-		public FragmentController add(final ControllableActivity<FragmentManager,FragmentTransaction> controllable, FragmentTransaction ft,
-				int controlId, int containerViewId, Class<? extends ControllableFragment> fragmentClass)
-				throws ControlledFragmentException, FragmentControllerException {
+		public FragmentController add(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
+				FragmentTransaction ft, int controlId, int containerViewId,
+				Class<? extends ControllableFragment> fragmentClass) throws ControlledFragmentException,
+				FragmentControllerException {
 			Bundle args = new Bundle();
 			args.putInt("__control_id__", controlId);
 			args.putString("__controllable_name__", controllable.getControllableName());
@@ -203,9 +215,10 @@ public class FragmentControllerApplication extends Application {
 		}
 
 		@Override
-		public FragmentController add(final ControllableActivity<FragmentManager,FragmentTransaction> controllable, FragmentTransaction ft,
-				int controlId, int containerViewId, Class<? extends ControllableFragment> fragmentClass,
-				boolean runsInNewThread) throws ControlledFragmentException, FragmentControllerException {
+		public FragmentController add(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
+				FragmentTransaction ft, int controlId, int containerViewId,
+				Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread)
+				throws ControlledFragmentException, FragmentControllerException {
 			Bundle args = new Bundle();
 			args.putInt("__control_id__", controlId);
 			args.putString("__controllable_name__", controllable.getControllableName());
@@ -215,23 +228,24 @@ public class FragmentControllerApplication extends Application {
 		}
 
 		@Override
-		public FragmentController add(final ControllableActivity<FragmentManager,FragmentTransaction> controllable, FragmentTransaction ft,
-				int controlId, Class<? extends ControllableFragment> fragmentClass, Bundle args)
+		public FragmentController add(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
+				FragmentTransaction ft, int controlId, Class<? extends ControllableFragment> fragmentClass, Bundle args)
 				throws ControlledFragmentException, FragmentControllerException {
 			return add(controllable, ft, controlId, 0, fragmentClass, false, args);
 		}
 
 		@Override
-		public FragmentController add(final ControllableActivity<FragmentManager,FragmentTransaction> controllable, FragmentTransaction ft,
-				int controlId, Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread, Bundle args)
-				throws ControlledFragmentException, FragmentControllerException {
+		public FragmentController add(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
+				FragmentTransaction ft, int controlId, Class<? extends ControllableFragment> fragmentClass,
+				boolean runsInNewThread, Bundle args) throws ControlledFragmentException, FragmentControllerException {
 			return add(controllable, ft, controlId, 0, fragmentClass, runsInNewThread, args);
 		}
 
 		@Override
-		public FragmentController add(final ControllableActivity<FragmentManager,FragmentTransaction> controllable, FragmentTransaction ft,
-				int controlId, int containerViewId, Class<? extends ControllableFragment> fragmentClass, Bundle args)
-				throws ControlledFragmentException, FragmentControllerException {
+		public FragmentController add(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
+				FragmentTransaction ft, int controlId, int containerViewId,
+				Class<? extends ControllableFragment> fragmentClass, Bundle args) throws ControlledFragmentException,
+				FragmentControllerException {
 			args.putInt("__control_id__", controlId);
 			args.putString("__controllable_name__", controllable.getControllableName());
 			args.putParcelable("__controller_messenger__", getMessenger());
@@ -241,9 +255,10 @@ public class FragmentControllerApplication extends Application {
 		}
 
 		@Override
-		public FragmentController add(final ControllableActivity<FragmentManager,FragmentTransaction> controllable, FragmentTransaction ft,
-				int controlId, int containerViewId, Class<? extends ControllableFragment> fragmentClass,
-				boolean runsInNewThread, Bundle args) throws ControlledFragmentException, FragmentControllerException {
+		public FragmentController add(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
+				FragmentTransaction ft, int controlId, int containerViewId,
+				Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread, Bundle args)
+				throws ControlledFragmentException, FragmentControllerException {
 			args.putInt("__control_id__", controlId);
 			args.putString("__controllable_name__", controllable.getControllableName());
 			args.putParcelable("__controller_messenger__", getMessenger());
@@ -253,29 +268,32 @@ public class FragmentControllerApplication extends Application {
 		}
 
 		@Override
-		public FragmentController add(final ControllableActivity<FragmentManager,FragmentTransaction> controllable, FragmentTransaction ft,
-				int controlId, ControllableFragment fragment) throws ControlledFragmentException,
-				FragmentControllerException {
+		public FragmentController add(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
+				FragmentTransaction ft, int controlId, ControllableFragment fragment)
+				throws ControlledFragmentException, FragmentControllerException {
 			return add(controllable, ft, controlId, 0, fragment);
 		}
 
 		@Override
-		public FragmentController add(final ControllableActivity<FragmentManager,FragmentTransaction> controllable, FragmentTransaction ft,
-				int controlId, int containerViewId, ControllableFragment fragment) throws ControlledFragmentException,
-				FragmentControllerException {
+		public FragmentController add(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
+				FragmentTransaction ft, int controlId, int containerViewId, ControllableFragment fragment)
+				throws ControlledFragmentException, FragmentControllerException {
 
 			String tag = generateTag(controlId, fragment.getClass(), controllable.getControllableName());
 			Fragment frag = controllable.getSupportFragmentManager().findFragmentByTag(tag);
 			if (null == frag) {
-				if (fragment instanceof ControlledFragment) {
-					ft.add(containerViewId, (Fragment) fragment, tag);
-				} else if (fragment instanceof ControlledDialogFragment) {
-					((ControlledDialogFragment) fragment).show(ft, tag);
+				if (fragment instanceof DialogFragment) {
+					((DialogFragment) fragment).show(ft, tag);
 				}
-			} else if (frag instanceof ControlledFragment && !frag.isAdded()) {
+				else {
+					ft.add(containerViewId, (Fragment) fragment, tag);
+				}
+			}
+			if (frag instanceof DialogFragment && !frag.isAdded()) {
+				((DialogFragment) frag).show(ft, tag);
+			}
+			else if (!frag.isAdded()) {
 				ft.add(containerViewId, frag, tag);
-			} else if (frag instanceof ControlledDialogFragment && !frag.isAdded()) {
-				((ControlledDialogFragment) frag).show(ft, tag);
 			}
 			return this;
 		}
@@ -288,30 +306,26 @@ public class FragmentControllerApplication extends Application {
 		}
 
 		@Override
-		public FragmentController show(final ControllableActivity<FragmentManager,FragmentTransaction> controllable,
+		public FragmentController show(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
 				FragmentTransaction ft, int controlId) throws FragmentControllerException {
 
 			ControllableFragment fragment = mFragments.get(controllable.getControllableName()).get(controlId, null)
 					.get();
-			if (null == fragment) {
-				throw new FragmentControllerException(String.format("No fragment found registered with control ID %d",
-						controlId));
-			}
+			if (null == fragment) { throw new FragmentControllerException(String.format(
+					"No fragment found registered with control ID %d", controlId)); }
 
 			ft.show((Fragment) fragment);
 			return this;
 		}
 
 		@Override
-		public FragmentController hide(final ControllableActivity<FragmentManager,FragmentTransaction> controllable,
+		public FragmentController hide(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
 				FragmentTransaction ft, int controlId) throws FragmentControllerException {
 
 			ControllableFragment fragment = mFragments.get(controllable.getControllableName()).get(controlId, null)
 					.get();
-			if (null == fragment) {
-				throw new FragmentControllerException(String.format("No fragment found registered with control ID %d",
-						controlId));
-			}
+			if (null == fragment) { throw new FragmentControllerException(String.format(
+					"No fragment found registered with control ID %d", controlId)); }
 
 			ft.hide((Fragment) fragment);
 			return this;
@@ -337,40 +351,91 @@ public class FragmentControllerApplication extends Application {
 			return this;
 		}
 
+		@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 		@Override
 		public FragmentController setCustomAnimations(FragmentTransaction ft, int enter, int exit, int popEnter,
 				int popExit) throws FragmentControllerException {
 
-			ft.setCustomAnimations(enter, exit, popEnter, popExit);
-			return this;
-		}
-
-		@Override
-		public FragmentController replace(final ControllableActivity<FragmentManager,FragmentTransaction> controllable,
-				FragmentTransaction ft, int controlId, int containerViewId) throws FragmentControllerException {
-
-			ControllableFragment fragment = mFragments.get(controllable.getControllableName()).get(controlId, null)
-					.get();
-			if (null == fragment) {
-				throw new FragmentControllerException(String.format("No fragment found registered with control ID %d",
-						controlId));
+			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2) {
+				ft.setCustomAnimations(enter, exit, popEnter, popExit);
 			}
-
-			ft.replace(containerViewId, (Fragment) fragment,
-					generateTag(controlId, fragment, controllable.getControllableName()));
 			return this;
 		}
 
 		@Override
-		public FragmentController remove(final ControllableActivity<FragmentManager,FragmentTransaction> controllable,
+		public FragmentController replace(
+				final ControllableActivity<FragmentManager, FragmentTransaction> controllable, FragmentTransaction ft,
+				int controlId, int containerViewId, Class<? extends ControllableFragment> fragmentClass)
+				throws ControlledFragmentException, FragmentControllerException {
+			Bundle args = new Bundle();
+			args.putInt("__control_id__", controlId);
+			args.putString("__controllable_name__", controllable.getControllableName());
+			args.putParcelable("__controller_messenger__", getMessenger());
+			ControllableFragment frag = newControllableFragment(fragmentClass, false, args);
+			assert (null != frag);
+			return replace(controllable, ft, controlId, containerViewId, frag);
+		}
+
+		@Override
+		public FragmentController replace(
+				final ControllableActivity<FragmentManager, FragmentTransaction> controllable, FragmentTransaction ft,
+				int controlId, int containerViewId, Class<? extends ControllableFragment> fragmentClass,
+				boolean runsInNewThread) throws ControlledFragmentException, FragmentControllerException {
+			Bundle args = new Bundle();
+			args.putInt("__control_id__", controlId);
+			args.putString("__controllable_name__", controllable.getControllableName());
+			ControllableFragment frag = newControllableFragment(fragmentClass, runsInNewThread, args);
+			assert (null != frag);
+			return replace(controllable, ft, controlId, containerViewId, frag);
+		}
+
+		@Override
+		public FragmentController replace(
+				final ControllableActivity<FragmentManager, FragmentTransaction> controllable, FragmentTransaction ft,
+				int controlId, int containerViewId, Class<? extends ControllableFragment> fragmentClass, Bundle args)
+				throws ControlledFragmentException, FragmentControllerException {
+			args.putInt("__control_id__", controlId);
+			args.putString("__controllable_name__", controllable.getControllableName());
+			args.putParcelable("__controller_messenger__", getMessenger());
+			ControllableFragment frag = newControllableFragment(fragmentClass, false, args);
+			assert (null != frag);
+			return replace(controllable, ft, controlId, containerViewId, frag);
+		}
+
+		@Override
+		public FragmentController replace(
+				final ControllableActivity<FragmentManager, FragmentTransaction> controllable, FragmentTransaction ft,
+				int controlId, int containerViewId, Class<? extends ControllableFragment> fragmentClass,
+				boolean runsInNewThread, Bundle args) throws ControlledFragmentException, FragmentControllerException {
+			args.putInt("__control_id__", controlId);
+			args.putString("__controllable_name__", controllable.getControllableName());
+			args.putParcelable("__controller_messenger__", getMessenger());
+			ControllableFragment frag = newControllableFragment(fragmentClass, runsInNewThread, args);
+			assert (null != frag);
+			return replace(controllable, ft, controlId, containerViewId, frag);
+		}
+
+		@Override
+		public FragmentController replace(ControllableActivity<FragmentManager, FragmentTransaction> controllable,
+				FragmentTransaction ft, int controlId, int containerViewId, ControllableFragment fragment) {
+
+			String tag = generateTag(controlId, fragment.getClass(), controllable.getControllableName());
+			Fragment frag = controllable.getSupportFragmentManager().findFragmentByTag(tag);
+			if (null == frag) {
+				ft.replace(containerViewId, (Fragment) fragment, tag);
+			}
+			ft.replace(containerViewId, frag, tag);
+			return this;
+		}
+
+		@Override
+		public FragmentController remove(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
 				FragmentTransaction ft, int controlId) throws FragmentControllerException {
 
 			ControllableFragment fragment = mFragments.get(controllable.getControllableName()).get(controlId, null)
 					.get();
-			if (null == fragment) {
-				throw new FragmentControllerException(String.format("No fragment found registered with control ID %d",
-						controlId));
-			}
+			if (null == fragment) { throw new FragmentControllerException(String.format(
+					"No fragment found registered with control ID %d", controlId)); }
 
 			ft.remove((Fragment) fragment);
 			return this;
@@ -378,9 +443,7 @@ public class FragmentControllerApplication extends Application {
 
 		@Override
 		public Messenger getMessenger() {
-			if (null != mHandler) {
-				return new Messenger(mHandler);
-			}
+			if (null != mHandler) { return new Messenger(mHandler); }
 			return null;
 		}
 
@@ -432,7 +495,7 @@ public class FragmentControllerApplication extends Application {
 		}
 
 		@Override
-		public FragmentController addCallback(ControllableActivity<FragmentManager,FragmentTransaction> controllable,
+		public FragmentController addCallback(ControllableActivity<FragmentManager, FragmentTransaction> controllable,
 				FragmentControllerCallbackAbstract<FragmentManager, FragmentTransaction> callback) {
 			if (mCallbacks.containsKey(controllable.getControllableName())
 					&& !mCallbacks.get(controllable.getControllableName()).contains(callback)) {
@@ -442,7 +505,8 @@ public class FragmentControllerApplication extends Application {
 		}
 
 		@Override
-		public FragmentController removeCallback(ControllableActivity<FragmentManager,FragmentTransaction> controllable,
+		public FragmentController removeCallback(
+				ControllableActivity<FragmentManager, FragmentTransaction> controllable,
 				FragmentControllerCallbackAbstract<FragmentManager, FragmentTransaction> callback) {
 			if (mCallbacks.containsKey(controllable.getControllableName())
 					&& mCallbacks.get(controllable.getControllableName()).contains(callback)) {
@@ -490,7 +554,8 @@ public class FragmentControllerApplication extends Application {
 				try {
 					mess.send(m);
 					sendSuccess = true;
-				} catch (RemoteException e) {
+				}
+				catch (RemoteException e) {
 					e.printStackTrace();
 				}
 			}
@@ -689,17 +754,13 @@ public class FragmentControllerApplication extends Application {
 
 		@Override
 		public Messenger getMessengerFor(final String controllableName, int controlId) {
-			if (!mMessengers.containsKey(controllableName)) {
-				return null;
-			}
+			if (!mMessengers.containsKey(controllableName)) { return null; }
 			return mMessengers.get(controllableName).get(controlId);
 		}
 
 		@Override
 		public ControllableFragment getFragmentFor(final String controllableName, int controlId) {
-			if (!mFragments.containsKey(controllableName)) {
-				return null;
-			}
+			if (!mFragments.containsKey(controllableName)) { return null; }
 			return mFragments.get(controllableName).get(controlId).get();
 		}
 
@@ -735,11 +796,6 @@ public class FragmentControllerApplication extends Application {
 			mHandler = null;
 		}
 
-		private static String generateTag(int controlId, ControllableFragment fragment, String controllableName) {
-			return String.format(Locale.getDefault(), "%1$s__%2$d__%3$s", fragment.getClass().getCanonicalName(),
-					controlId, controllableName);
-		}
-
 		private static String generateTag(int controlId, Class<? extends ControllableFragment> fclass,
 				String controllableName) {
 			return String.format(Locale.getDefault(), "%1$s__%2$d__%3$s", fclass.getCanonicalName(), controlId,
@@ -750,14 +806,10 @@ public class FragmentControllerApplication extends Application {
 				ControllableFragment fragment) throws ControlledFragmentException {
 			Log.d("FragmentControllerApplication",
 					"◆ attachControllableFragment :" + controlId + "[" + fragment.getFragmentName() + "]");
-			if (!mFragments.containsKey(controllableName)) {
-				return;
-			}
+			if (!mFragments.containsKey(controllableName)) { return; }
 			// controlId already defined, raise an error
-			if (mFragments.get(controllableName).indexOfKey(controlId) > 0) {
-				throw new ControlledFragmentException(String.format(
-						"Specified ControlID [%d] already defined: cannot add fragment", controlId));
-			}
+			if (mFragments.get(controllableName).indexOfKey(controlId) > 0) { throw new ControlledFragmentException(
+					String.format("Specified ControlID [%d] already defined: cannot add fragment", controlId)); }
 
 			if (controlId == fragment.getControlId()) {
 				mFragments.get(controllableName).put(controlId, new WeakReference<ControllableFragment>(fragment));
@@ -780,31 +832,38 @@ public class FragmentControllerApplication extends Application {
 		}
 
 		@SuppressWarnings("unchecked")
-		private FragmentControllerCallbackAbstract<FragmentManager,FragmentTransaction> newFragmentControllerCallback(ControllableActivity<?,?> controllable, Class<? extends FragmentControllerCallbackAbstract<?,?>> cls) {
+		private FragmentControllerCallbackAbstract<FragmentManager, FragmentTransaction> newFragmentControllerCallback(
+				ControllableActivity<?, ?> controllable, Class<? extends FragmentControllerCallbackAbstract<?, ?>> cls) {
 			Constructor<?>[] allCs = cls.getDeclaredConstructors();
-			FragmentControllerCallbackAbstract<FragmentManager,FragmentTransaction> callback = null;
+			FragmentControllerCallbackAbstract<FragmentManager, FragmentTransaction> callback = null;
 			for (Constructor<?> c : allCs) {
 				Class<?>[] types = c.getParameterTypes();
 				if (types.length == 2) {
 					try {
-						callback = (FragmentControllerCallbackAbstract<FragmentManager,FragmentTransaction>) c.newInstance(controllable, this);
+						callback = (FragmentControllerCallbackAbstract<FragmentManager, FragmentTransaction>) c
+								.newInstance(controllable, this);
 						return callback;
-					} catch (ClassCastException e) {
-						e.printStackTrace();						
-					} catch (IllegalArgumentException e) {
+					}
+					catch (ClassCastException e) {
 						e.printStackTrace();
-					} catch (IllegalAccessException e) {
+					}
+					catch (IllegalArgumentException e) {
 						e.printStackTrace();
-					} catch (InvocationTargetException e) {
+					}
+					catch (IllegalAccessException e) {
 						e.printStackTrace();
-					} catch (InstantiationException e) {
+					}
+					catch (InvocationTargetException e) {
+						e.printStackTrace();
+					}
+					catch (InstantiationException e) {
 						e.printStackTrace();
 					}
 				}
 			}
 			return null;
 		}
-		
+
 		/**
 		 * Returns a new {@link ControllableFragment} based on the input Class type.
 		 * 
@@ -842,11 +901,14 @@ public class FragmentControllerApplication extends Application {
 					try {
 						fragment = (ControllableFragment) m.invoke(fragmentClass, fragmentClass, runsInNewThread, args);
 						return fragment;
-					} catch (IllegalArgumentException e) {
+					}
+					catch (IllegalArgumentException e) {
 						e.printStackTrace();
-					} catch (IllegalAccessException e) {
+					}
+					catch (IllegalAccessException e) {
 						e.printStackTrace();
-					} catch (InvocationTargetException e) {
+					}
+					catch (InvocationTargetException e) {
 						e.printStackTrace();
 					}
 				}
@@ -876,16 +938,20 @@ public class FragmentControllerApplication extends Application {
 							.get(controllableName)) {
 						handled = c.handleMessage(msg.arg1, targetMesg) || handled;
 					}
-				} else if (MSG_ATTACH_MESSAGE == msg.what) {
+				}
+				else if (MSG_ATTACH_MESSAGE == msg.what) {
 					try {
 						attachControllableFragment(controllableName, msg.arg1, (ControllableFragment) msg.obj);
-					} catch (ControlledFragmentException e) {
+					}
+					catch (ControlledFragmentException e) {
 						e.printStackTrace();
 					}
-				} else if (MSG_DETACH_MESSAGE == msg.what) {
+				}
+				else if (MSG_DETACH_MESSAGE == msg.what) {
 					try {
 						detachControllableFragment(controllableName, msg.arg1, (ControllableFragment) msg.obj);
-					} catch (ControlledFragmentException e) {
+					}
+					catch (ControlledFragmentException e) {
 						e.printStackTrace();
 					}
 				}
