@@ -101,10 +101,10 @@ import org.ymkm.lib.automaton.IntentAutomaton.Runner.RunnerContext;
  * {@link RunnerContext} which gets passed to each {@link StateAction},
  * {@link TransitionAction}, {@link TransitionGuard} callback methods; all
  * instance-specific states that needs to be propagated throughout the whole run
- * can be stored in the context using a somple key-value storage.<br>
+ * can be stored in the context using a simple key-value storage.<br>
  * </p>
  * 
- * @author mikami-yoann
+ * @author yoann@ymkm.org
  * 
  */
 @SuppressLint("UseSparseArrays")
@@ -137,7 +137,7 @@ public class IntentAutomaton {
 	 * <dd>The intent that triggered the transition</dd>
 	 * </dl>
 	 */
-	public final static String INTENT_AUTOMATON_STATE_CHANGE = "org.ymkm.lib.automaton.AUTOMATON_STATE_CHANGE";
+	public final static String INTENT_AUTOMATON_STATE_CHANGE = "org.ymkm.lib.automaton.INTENT_AUTOMATON_STATE_CHANGE";
 
 	/**
 	 * Extra data for {@link INTENT_AUTOMATON_STATE_CHANGE} : From state name
@@ -192,11 +192,6 @@ public class IntentAutomaton {
 	 * <br>
 	 * They can take either of these 3 types : INITIAL, FINAL or DEFAULT.
 	 * <p>
-	 * To circumvent the realtime, multithreaded nature of Android, notify
-	 * actions may also be specified to perform some processing on a given state
-	 * whenever the Runner gets paused/resumed.
-	 * </p>
-	 * <p>
 	 * StateAction supplied to enter/exit/notify events may have a delay during
 	 * their creation.<br>
 	 * In that case, the action will be performed upon
@@ -204,7 +199,7 @@ public class IntentAutomaton {
 	 * elapsed.
 	 * </p>
 	 * 
-	 * @author mikami-yoann
+	 * @author yoann@ymkm.org
 	 */
 	private final static class State {
 		private int mStateId;
@@ -218,7 +213,7 @@ public class IntentAutomaton {
 		 * 
 		 * Stores the RunnerContext and the StateAction
 		 * 
-		 * @author mikami-yoann
+		 * @author yoann@ymkm.org
 		 */
 		private final static class ActionRunnable implements Runnable {
 			StateAction mStateAction;
@@ -445,7 +440,7 @@ public class IntentAutomaton {
 	/**
 	 * Represents a transition in the automaton
 	 * 
-	 * @author mikami-yoann
+	 * @author yoann@ymkm.org
 	 */
 	private final static class Transition {
 		private TransitionAction mTransitionAction;
@@ -457,7 +452,7 @@ public class IntentAutomaton {
 		 * 
 		 * Stores the RunnerContext, the Intent and the TransitionAction
 		 * 
-		 * @author mikami-yoann
+		 * @author yoann@ymkm.org
 		 */
 		private final static class ActionRunnable implements Runnable {
 			TransitionAction mTransitionAction;
@@ -578,7 +573,7 @@ public class IntentAutomaton {
 	/**
 	 * Defines an action to perform when entering/exiting a state
 	 * 
-	 * @author mikami-yoann
+	 * @author yoann@ymkm.org
 	 */
 	public static abstract class StateAction {
 
@@ -622,7 +617,7 @@ public class IntentAutomaton {
 	/**
 	 * Defines an action to perform when traversing this transition
 	 * 
-	 * @author mikami-yoann
+	 * @author yoann@ymkm.org
 	 */
 	public static abstract class TransitionAction {
 
@@ -699,7 +694,7 @@ public class IntentAutomaton {
 	/**
 	 * Default null transition guard (ie. does not have any guard constraints)
 	 * 
-	 * @author mikami-yoann
+	 * @author yoann@ymkm.org
 	 */
 	public final static class NullTransitionGuard extends TransitionGuard {
 		@Override
@@ -713,7 +708,7 @@ public class IntentAutomaton {
 	 * Transition guard that returns true if the decorated guard returns false
 	 * (Inverts)
 	 * 
-	 * @author mikami-yoann
+	 * @author yoann@ymkm.org
 	 */
 	public final static class NotTransitionGuard extends TransitionGuard {
 
@@ -733,7 +728,7 @@ public class IntentAutomaton {
 	/**
 	 * Transition guard that returns true if both decorated guard return true
 	 * 
-	 * @author mikami-yoann
+	 * @author yoann@ymkm.org
 	 */
 	public final static class AndTransitionGuard extends TransitionGuard {
 
@@ -756,7 +751,7 @@ public class IntentAutomaton {
 	/**
 	 * Base IntentAutomaton exception
 	 * 
-	 * @author mikami-yoann
+	 * @author yoann@ymkm.org
 	 */
 	public abstract static class IntentAutomatonException extends Exception {
 		private static final long serialVersionUID = -2972101806117136770L;
@@ -769,7 +764,7 @@ public class IntentAutomaton {
 	/**
 	 * IntentAutomaton exception for state errors (static errors)
 	 * 
-	 * @author mikami-yoann
+	 * @author yoann@ymkm.org
 	 */
 	public final static class IntentAutomatonStateException extends
 			IntentAutomatonException {
@@ -783,7 +778,7 @@ public class IntentAutomaton {
 	/**
 	 * IntentAutomaton exception related to a runner (dynamic errors)
 	 * 
-	 * @author mikami-yoann
+	 * @author yoann@ymkm.org
 	 */
 	public final static class IntentAutomatonRunnerException extends
 			IntentAutomatonException {
@@ -818,7 +813,7 @@ public class IntentAutomaton {
 	 * Activity/Fragment is destroyed/recreated.
 	 * </p>
 	 * 
-	 * @author mikami-yoann
+	 * @author yoann@ymkm.org
 	 */
 	public final static class Runner {
 
@@ -833,7 +828,7 @@ public class IntentAutomaton {
 		 * states/transitions (e.g. in {@link TransitionGuard}, one could handle
 		 * different cases based on values inside the context).
 		 * 
-		 * @author mikami-yoann
+		 * @author yoann@ymkm.org
 		 * 
 		 */
 		public final static class RunnerContext {
@@ -1202,7 +1197,7 @@ public class IntentAutomaton {
 		/**
 		 * Transitions manually.
 		 * 
-		 * @param to state ID to transition to
+		 * @param intent the Intent to send to running instances
 		 */
 		public void transition(Intent intent) {
 			mIntentAutomatonHandler
