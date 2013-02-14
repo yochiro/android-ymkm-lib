@@ -288,11 +288,13 @@ public class FragmentControllerApplication extends Application {
 					ft.add(containerViewId, (Fragment) fragment, tag);
 				}
 			}
-			if (frag instanceof DialogFragment && !frag.isAdded()) {
-				((DialogFragment) frag).show(ft, tag);
-			}
-			else if (!frag.isAdded()) {
-				ft.add(containerViewId, frag, tag);
+			else {
+				if (frag instanceof DialogFragment && !frag.isAdded()) {
+					((DialogFragment) frag).show(ft, tag);
+				}
+				else if (!frag.isAdded()) {
+					ft.add(containerViewId, frag, tag);
+				}
 			}
 			return this;
 		}
@@ -423,7 +425,9 @@ public class FragmentControllerApplication extends Application {
 			if (null == frag) {
 				ft.replace(containerViewId, (Fragment) fragment, tag);
 			}
-			ft.replace(containerViewId, frag, tag);
+			else {
+				ft.replace(containerViewId, frag, tag);
+			}
 			return this;
 		}
 
