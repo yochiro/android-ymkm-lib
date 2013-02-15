@@ -20,6 +20,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ymkm.lib.controller.core.ControllableActivity;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
@@ -27,9 +29,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Build;
 import android.os.Bundle;
-
-import org.ymkm.lib.controller.FragmentControllerApplication.FragmentController;
-import org.ymkm.lib.controller.core.ControllableActivity;
 
 /**
  * ControlledActivity automates the process of registering/unregistering
@@ -103,7 +102,7 @@ public abstract class ControlledActivity extends Activity implements Controllabl
 	public final FragmentManager getSupportFragmentManager() {
 		return super.getFragmentManager();
 	}
-
+	
 	public final void runDelayedOnUiThread(final Runnable runnable, long delayMillis) {
 		getController().postDelayed(new Runnable() {
 			@Override

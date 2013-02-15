@@ -16,12 +16,11 @@
 
 package org.ymkm.lib.controller.support;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-
 import org.ymkm.lib.controller.core.ControllableActivity;
 import org.ymkm.lib.controller.core.FragmentControllerInterface;
-import org.ymkm.lib.controller.support.FragmentControllerApplication.FragmentController;
+
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 public abstract class FragmentControllerCallback extends org.ymkm.lib.controller.core.FragmentControllerCallbackAbstract<FragmentManager, FragmentTransaction> {
 
