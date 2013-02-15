@@ -28,8 +28,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.Settings;
 
-import org.ymkm.lib.location.support.LocationFragment;
-
 /**
  * Configuration class for {@link LocatorFragment}.
  * 

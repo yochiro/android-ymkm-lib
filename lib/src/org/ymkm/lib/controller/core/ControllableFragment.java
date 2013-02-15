@@ -21,10 +21,6 @@ import android.os.Message;
 import android.os.Messenger;
 import android.support.v4.app.Fragment;
 
-import org.ymkm.lib.controller.support.FragmentControllerApplication;
-import org.ymkm.lib.controller.support.FragmentControllerApplication.FragmentController;
-
-
 /**
  * Defines a {@link Fragment} that is controllable by a {@link FragmentControllerApplication}.
  * 

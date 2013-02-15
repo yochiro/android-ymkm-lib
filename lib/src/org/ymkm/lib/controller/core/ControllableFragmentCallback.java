@@ -20,8 +20,6 @@ import android.os.Handler.Callback;
 import android.os.Message;
 import android.os.Messenger;
 
-import org.ymkm.lib.controller.support.FragmentControllerApplication;
-
 /**
  * TODO 
  * 
@@ -32,7 +30,7 @@ import org.ymkm.lib.controller.support.FragmentControllerApplication;
  * </p>
  * <p>
  * All messages sent using any variation of {@link ControllableFragmentCallback#sendToController()} are
- * sent to the controller using {@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} as the message.
+ * sent to the controller using {@linkplain FragmentControllerApplication#MSG_DISPATCH_MESSAGE} as the message.
  * </p>
  */
 public interface ControllableFragmentCallback extends Callback {
