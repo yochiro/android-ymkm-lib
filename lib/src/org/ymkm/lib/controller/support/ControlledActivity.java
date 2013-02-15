@@ -20,14 +20,13 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ymkm.lib.controller.core.ControllableActivity;
+
 import android.app.Application;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
-import org.ymkm.lib.controller.core.ControllableActivity;
-import org.ymkm.lib.controller.support.FragmentControllerApplication.FragmentController;
 
 /**
  * ControlledActivity automates the process of registering/unregistering

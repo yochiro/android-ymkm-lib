@@ -16,6 +16,13 @@
 
 package org.ymkm.lib.controller;
 
+import org.ymkm.lib.controller.core.ControllableActivity;
+import org.ymkm.lib.controller.core.ControllableFragment;
+import org.ymkm.lib.controller.core.ControllableFragmentCallback;
+import org.ymkm.lib.controller.core.ControlledFragmentCallback;
+import org.ymkm.lib.controller.core.ControlledFragmentException;
+import org.ymkm.lib.controller.core.FragmentControllerInterface;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
@@ -25,14 +32,6 @@ import android.os.HandlerThread;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-
-import org.ymkm.lib.controller.FragmentControllerApplication.FragmentController;
-import org.ymkm.lib.controller.core.ControllableActivity;
-import org.ymkm.lib.controller.core.ControllableFragment;
-import org.ymkm.lib.controller.core.ControllableFragmentCallback;
-import org.ymkm.lib.controller.core.ControlledFragmentCallback;
-import org.ymkm.lib.controller.core.ControlledFragmentException;
-import org.ymkm.lib.controller.core.FragmentControllerInterface;
 
 /**
  * Defines a {@link Fragment} that is controllable by a

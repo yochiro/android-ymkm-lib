@@ -59,7 +59,7 @@ public abstract class FragmentControllerCallbackAbstract<FM, FT> {
 	 * @param controller
 	 *            the controller that owns it
 	 */
-	public FragmentControllerCallbackAbstract(final ControllableActivity<FM,FT> controllable, FragmentControllerInterface<FM,FT> controller) {
+	protected FragmentControllerCallbackAbstract(final ControllableActivity<FM,FT> controllable, FragmentControllerInterface<FM,FT> controller) {
 		 mController = controller;
 		 mControllable = controllable;
 	}
