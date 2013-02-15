@@ -33,14 +33,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.util.SparseArray;
 
-
-
 /**
  * TODO
  * 
  */
-public final class FragmentController implements
-		FragmentControllerInterface<FragmentManager, FragmentTransaction> {
+public final class FragmentController implements FragmentControllerInterface<FragmentManager, FragmentTransaction> {
 
 	public final static class CallbackMessage {
 
@@ -92,8 +89,7 @@ public final class FragmentController implements
 			mCallbacks.get(controllable.getControllableName()).clear();
 		}
 		if (!mFragments.containsKey(controllable.getControllableName())) {
-			mFragments.put(controllable.getControllableName(),
-					new SparseArray<WeakReference<ControllableFragment>>());
+			mFragments.put(controllable.getControllableName(), new SparseArray<WeakReference<ControllableFragment>>());
 		}
 		else {
 			mFragments.get(controllable.getControllableName()).clear();
@@ -230,8 +226,8 @@ public final class FragmentController implements
 
 	@Override
 	public FragmentController add(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
-			FragmentTransaction ft, int controlId, ControllableFragment fragment)
-			throws ControlledFragmentException, FragmentControllerException {
+			FragmentTransaction ft, int controlId, ControllableFragment fragment) throws ControlledFragmentException,
+			FragmentControllerException {
 		return add(controllable, ft, controlId, 0, fragment);
 	}
 
@@ -262,8 +258,7 @@ public final class FragmentController implements
 	}
 
 	@Override
-	public FragmentController addToBackStack(FragmentTransaction ft, String name)
-			throws FragmentControllerException {
+	public FragmentController addToBackStack(FragmentTransaction ft, String name) throws FragmentControllerException {
 		ft.addToBackStack(name);
 		return this;
 	}
@@ -272,8 +267,7 @@ public final class FragmentController implements
 	public FragmentController show(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
 			FragmentTransaction ft, int controlId) throws FragmentControllerException {
 
-		ControllableFragment fragment = mFragments.get(controllable.getControllableName()).get(controlId, null)
-				.get();
+		ControllableFragment fragment = mFragments.get(controllable.getControllableName()).get(controlId, null).get();
 		if (null == fragment) { throw new FragmentControllerException(String.format(
 				"No fragment found registered with control ID %d", controlId)); }
 
@@ -285,8 +279,7 @@ public final class FragmentController implements
 	public FragmentController hide(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
 			FragmentTransaction ft, int controlId) throws FragmentControllerException {
 
-		ControllableFragment fragment = mFragments.get(controllable.getControllableName()).get(controlId, null)
-				.get();
+		ControllableFragment fragment = mFragments.get(controllable.getControllableName()).get(controlId, null).get();
 		if (null == fragment) { throw new FragmentControllerException(String.format(
 				"No fragment found registered with control ID %d", controlId)); }
 
@@ -316,8 +309,8 @@ public final class FragmentController implements
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	@Override
-	public FragmentController setCustomAnimations(FragmentTransaction ft, int enter, int exit, int popEnter,
-			int popExit) throws FragmentControllerException {
+	public FragmentController setCustomAnimations(FragmentTransaction ft, int enter, int exit, int popEnter, int popExit)
+			throws FragmentControllerException {
 
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2) {
 			ft.setCustomAnimations(enter, exit, popEnter, popExit);
@@ -326,10 +319,10 @@ public final class FragmentController implements
 	}
 
 	@Override
-	public FragmentController replace(
-			final ControllableActivity<FragmentManager, FragmentTransaction> controllable, FragmentTransaction ft,
-			int controlId, int containerViewId, Class<? extends ControllableFragment> fragmentClass)
-			throws ControlledFragmentException, FragmentControllerException {
+	public FragmentController replace(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
+			FragmentTransaction ft, int controlId, int containerViewId,
+			Class<? extends ControllableFragment> fragmentClass) throws ControlledFragmentException,
+			FragmentControllerException {
 		Bundle args = new Bundle();
 		args.putInt("__control_id__", controlId);
 		args.putString("__controllable_name__", controllable.getControllableName());
@@ -340,10 +333,10 @@ public final class FragmentController implements
 	}
 
 	@Override
-	public FragmentController replace(
-			final ControllableActivity<FragmentManager, FragmentTransaction> controllable, FragmentTransaction ft,
-			int controlId, int containerViewId, Class<? extends ControllableFragment> fragmentClass,
-			boolean runsInNewThread) throws ControlledFragmentException, FragmentControllerException {
+	public FragmentController replace(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
+			FragmentTransaction ft, int controlId, int containerViewId,
+			Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread)
+			throws ControlledFragmentException, FragmentControllerException {
 		Bundle args = new Bundle();
 		args.putInt("__control_id__", controlId);
 		args.putString("__controllable_name__", controllable.getControllableName());
@@ -353,10 +346,10 @@ public final class FragmentController implements
 	}
 
 	@Override
-	public FragmentController replace(
-			final ControllableActivity<FragmentManager, FragmentTransaction> controllable, FragmentTransaction ft,
-			int controlId, int containerViewId, Class<? extends ControllableFragment> fragmentClass, Bundle args)
-			throws ControlledFragmentException, FragmentControllerException {
+	public FragmentController replace(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
+			FragmentTransaction ft, int controlId, int containerViewId,
+			Class<? extends ControllableFragment> fragmentClass, Bundle args) throws ControlledFragmentException,
+			FragmentControllerException {
 		args.putInt("__control_id__", controlId);
 		args.putString("__controllable_name__", controllable.getControllableName());
 		args.putParcelable("__controller_messenger__", getMessenger());
@@ -366,10 +359,10 @@ public final class FragmentController implements
 	}
 
 	@Override
-	public FragmentController replace(
-			final ControllableActivity<FragmentManager, FragmentTransaction> controllable, FragmentTransaction ft,
-			int controlId, int containerViewId, Class<? extends ControllableFragment> fragmentClass,
-			boolean runsInNewThread, Bundle args) throws ControlledFragmentException, FragmentControllerException {
+	public FragmentController replace(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
+			FragmentTransaction ft, int controlId, int containerViewId,
+			Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread, Bundle args)
+			throws ControlledFragmentException, FragmentControllerException {
 		args.putInt("__control_id__", controlId);
 		args.putString("__controllable_name__", controllable.getControllableName());
 		args.putParcelable("__controller_messenger__", getMessenger());
@@ -397,8 +390,7 @@ public final class FragmentController implements
 	public FragmentController remove(final ControllableActivity<FragmentManager, FragmentTransaction> controllable,
 			FragmentTransaction ft, int controlId) throws FragmentControllerException {
 
-		ControllableFragment fragment = mFragments.get(controllable.getControllableName()).get(controlId, null)
-				.get();
+		ControllableFragment fragment = mFragments.get(controllable.getControllableName()).get(controlId, null).get();
 		if (null == fragment) { throw new FragmentControllerException(String.format(
 				"No fragment found registered with control ID %d", controlId)); }
 
@@ -470,8 +462,7 @@ public final class FragmentController implements
 	}
 
 	@Override
-	public FragmentController removeCallback(
-			ControllableActivity<FragmentManager, FragmentTransaction> controllable,
+	public FragmentController removeCallback(ControllableActivity<FragmentManager, FragmentTransaction> controllable,
 			FragmentControllerCallbackAbstract<FragmentManager, FragmentTransaction> callback) {
 		if (mCallbacks.containsKey(controllable.getControllableName())
 				&& mCallbacks.get(controllable.getControllableName()).contains(callback)) {
@@ -506,8 +497,7 @@ public final class FragmentController implements
 	}
 
 	@Override
-	public boolean sendTo(final String controllableName, int targetControlId, int what, int arg1, int arg2,
-			Object obj) {
+	public boolean sendTo(final String controllableName, int targetControlId, int what, int arg1, int arg2, Object obj) {
 		boolean sendSuccess = false;
 		Messenger mess = getMessengerFor(controllableName, targetControlId);
 		if (null != mess) {
@@ -529,8 +519,8 @@ public final class FragmentController implements
 
 	/**
 	 * Sends a message to this controller via its supplied {@link Messenger} <br>
-	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following
-	 * values :
+	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following values
+	 * :
 	 * <dl>
 	 * <dt>what</dt>
 	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
@@ -556,8 +546,8 @@ public final class FragmentController implements
 
 	/**
 	 * Sends a message to this controller via its supplied {@link Messenger} <br>
-	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following
-	 * values :
+	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following values
+	 * :
 	 * <dl>
 	 * <dt>what</dt>
 	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
@@ -585,8 +575,8 @@ public final class FragmentController implements
 
 	/**
 	 * Sends a message to this controller via its supplied {@link Messenger} <br>
-	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following
-	 * values :
+	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following values
+	 * :
 	 * <dl>
 	 * <dt>what</dt>
 	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
@@ -614,8 +604,8 @@ public final class FragmentController implements
 
 	/**
 	 * Sends a message to this controller via its supplied {@link Messenger} <br>
-	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following
-	 * values :
+	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following values
+	 * :
 	 * <dl>
 	 * <dt>what</dt>
 	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
@@ -645,8 +635,8 @@ public final class FragmentController implements
 
 	/**
 	 * Sends a message to this controller via its supplied {@link Messenger} <br>
-	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following
-	 * values :
+	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following values
+	 * :
 	 * <dl>
 	 * <dt>what</dt>
 	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
@@ -676,8 +666,8 @@ public final class FragmentController implements
 
 	/**
 	 * Sends a message to this controller via its supplied {@link Messenger} <br>
-	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following
-	 * values :
+	 * The sent message wraps the actual message that will be dispatched by the controller, and has the following values
+	 * :
 	 * <dl>
 	 * <dt>what</dt>
 	 * <dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
@@ -688,8 +678,7 @@ public final class FragmentController implements
 	 * <dt>obj</dt>
 	 * <dd>{@link Message} that will get dispatched (the {@code what} will be added to it)</dd>
 	 * </dl>
-	 * obj is a message instance that will eventually contain what, arg1, arg2, obj passed as parameters of this
-	 * method.<br>
+	 * obj is a message instance that will eventually contain what, arg1, arg2, obj passed as parameters of this method.<br>
 	 * 
 	 * @param controllableName
 	 *            the controllable name to use
@@ -834,9 +823,9 @@ public final class FragmentController implements
 	 * 
 	 * The instantiation is delegated to the class implementing {@link ControllableFragment} passed as a parameter.
 	 * <p>
-	 * It looks up for a static {@code createFragment(Class<? extends ControllableFragment>, boolean, Bundle)}
-	 * method should be defined in the class implementing {@link ControllableFragment} that is passed as the first
-	 * parameter of this method.<br>
+	 * It looks up for a static {@code createFragment(Class<? extends ControllableFragment>, boolean, Bundle)} method
+	 * should be defined in the class implementing {@link ControllableFragment} that is passed as the first parameter of
+	 * this method.<br>
 	 * E.g. {@linkplain ControlledFragment#createFragment} , {@linkplain ControlledDialogFragment#createFragment}.
 	 * </p>
 	 * <p>
