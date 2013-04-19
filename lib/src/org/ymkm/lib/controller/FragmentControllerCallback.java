@@ -16,17 +16,25 @@
 
 package org.ymkm.lib.controller;
 
-import org.ymkm.lib.controller.core.ControllableActivity;
-import org.ymkm.lib.controller.core.FragmentControllerInterface;
+import org.ymkm.lib.controller.core.FragmentControllerCallbackAbstract;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
-public abstract class FragmentControllerCallback extends org.ymkm.lib.controller.core.FragmentControllerCallbackAbstract<FragmentManager, FragmentTransaction> {
+public abstract class FragmentControllerCallback extends
+		FragmentControllerCallbackAbstract<FragmentManager, FragmentTransaction> {
 
-	@SuppressWarnings("unchecked")
-	public FragmentControllerCallback(ControllableActivity<?,?> controllable, FragmentController controller) {
-		super((ControllableActivity<FragmentManager,FragmentTransaction>)controllable, 
-			  (FragmentControllerInterface<FragmentManager,FragmentTransaction>)controller);
+	public FragmentControllerCallback(ControllableActivity controllable, FragmentController controller) {
+		super(controllable, controller);
+	}
+
+	@Override
+	protected final ControllableActivity getControllableActivity() {
+		return (ControllableActivity) super.getControllableActivity();
+	}
+
+	@Override
+	protected final FragmentController getController() {
+		return (FragmentController) super.getController();
 	}
 }

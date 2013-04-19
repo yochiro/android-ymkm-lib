@@ -14,27 +14,26 @@
  * limitations under the License.
  ******************************************************************************/
 
-package org.ymkm.lib.controller.support;
+package org.ymkm.lib.controller.core;
 
-import org.ymkm.lib.controller.core.FragmentControllerCallbackAbstract;
+import org.ymkm.lib.controller.ControlledFragment;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+/**
+ * Exception related to {@link ControlledFragment}
+ */
+public class ControllableFragmentException extends Exception {
 
-public abstract class FragmentControllerCallback extends
-		FragmentControllerCallbackAbstract<FragmentManager, FragmentTransaction> {
-
-	public FragmentControllerCallback(ControllableActivity controllable, FragmentController controller) {
-		super(controllable, controller);
+	/**
+	 * Creates a new Exception
+	 * 
+	 * @param message the exception message
+	 */
+	public ControllableFragmentException(String message) {
+		super(message);
 	}
 
-	@Override
-	protected final ControllableActivity getControllableActivity() {
-		return (ControllableActivity) super.getControllableActivity();
-	}
-
-	@Override
-	protected final FragmentController getController() {
-		return (FragmentController) super.getController();
-	}
+	/**
+	 * Serial ID
+	 */
+	private static final long serialVersionUID = 3056429364721934083L;
 }

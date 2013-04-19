@@ -16,268 +16,183 @@
 
 package org.ymkm.lib.controller.core;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.os.Handler;
+import android.os.Handler.Callback;
 import android.os.Message;
 import android.os.Messenger;
-import android.os.RemoteException;
-
-import org.ymkm.lib.controller.ControlledFragment;
-import org.ymkm.lib.controller.FragmentControllerApplication;
 
 /**
- * TODO
- *
+ * TODO 
+ * 
  * <p>
- * The message handling is performed inside the {@link FragmentControllerCallbackAbstract#handleMessage(int, Message)}
- * method, which mimicks the {@link Handler.Callback#handleMessage(Message)}, with the difference
- * that an additional {@code sourceControlId} parameter is passed alongwith the {@link Message}.<br>
- * It defines the control ID that sent the message, which can be used by the implementor if needed.
+ * - Note : A constructor that takes the {@link ControllableFragmentInterface} as a parameter MUST be defined in the subclass<br>
+ * - When defined as an inner class of another class, it will added automatically by the compiler,
+ * unless the {@code static} keyword is used, which will cause the empty constructor to be created instead.<br>
  * </p>
  * <p>
- * To allow interaction between {@link ControlledFragment}, this class supplies a
- * {@link FragmentControllerCallbackAbstract#sendTo(int, int, int, int, Object)} methods, which takes the
- * target control ID as its first parameter, defining which {@link ControlledFragment}'s {@link Handler} should process the message.<br>
- * A query is made to the controller using {@link FragmentControllerApplication#getMessengerFor(int)} with the target control ID
- * as the parameter, which returns (if available) the {@link Messenger} for the given fragment.
- * </p>
- * <p>
- * {@link FragmentControllerCallbackAbstract#doHandleMessage(int, Message)} should be overridden by subclasses and contain the
- * message handling that the related fragment can process.<br>
- * variations of the {@code sendTo} method can be called to dispatch messages to other parts of the system in response to its own.
+ * All messages sent using any variation of {@link ControllableFragmentCallbackInterface#sendToController()} are
+ * sent to the controller using {@linkplain FragmentControllerApplication#MSG_DISPATCH_MESSAGE} as the message.
  * </p>
  */
-public abstract class FragmentControllerCallbackAbstract<FM, FT> {
+public interface ControllableFragmentCallbackInterface extends Callback {
 
 	/**
-	 * Creates a new Callback usable by {@link FragmentControllerApplication}.
+	 * Initializes this {@linkplain ControllableFragmentCallbackInterface} by setting the {@link ControllerFragment}
+	 * <p>
+	 * Subclass contract : superclass doInit MUST be called, otherwise an assertion failure will occur.
+	 * </p>
 	 * 
-	 * @param the
-	 *            {@linkparam Activity} containing this callback. May be used by subclasses if needed
-	 * @param controller
-	 *            the controller that owns it
+	 * @param controllerFragment
 	 */
-	protected FragmentControllerCallbackAbstract(final ControllableActivityInterface<FM,FT> controllable, FragmentControllerInterface<FM,FT> controller) {
-		 mController = controller;
-		 mControllable = controllable;
-	}
-
-	public final boolean handleMessage(int sourceControlId, Message msg) {
-		return doHandleMessage(sourceControlId, msg);
-	}
-
-	protected final boolean sendTo(int targetControlId, int what) {
-		return sendTo(targetControlId, what, 0, 0, null);
-	}
-
-	protected final boolean sendTo(int targetControlId, int what, int arg1) {
-		return sendTo(targetControlId, what, arg1, 0, null);
-	}
-
-	protected final boolean sendTo(int targetControlId, int what, Object obj) {
-		return sendTo(targetControlId, what, 0, 0, obj);
-	}
-
-	protected final boolean sendTo(int targetControlId, int what, int arg1, int arg2) {
-		return sendTo(targetControlId, what, arg1, arg2, null);		
-	}
-
-	protected final boolean sendTo(int targetControlId, int what, int arg1, Object obj) {
-		return sendTo(targetControlId, what, arg1, 0, obj);
-	}
-
-	protected final boolean sendTo(int targetControlId, int what, int arg1, int arg2, Object obj) {
-		return mController.sendTo(mControllable.getControllableName(), targetControlId, what, arg1, arg2, obj);
-	}
+	void init(ControllableFragmentInterface controllerFragment);
 
 	/**
 	 * Sends a message to the controller via its supplied {@link Messenger}
-	 * <br>
+	 * <p>
+	 * A {@link ControllableFragmentInterface} can only communicate with the {@link FragmentControllerApplication}.
+	 * </p>
 	 * The sent message wraps the actual message that will be dispatched by the controller,
 	 * and has the following values :
 	 * <dl>
 	 * <dt>what</dt><dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
-	 * <dt>arg1</dt><dd>The source control ID passed as a parameter</dd>
+	 * <dt>arg1</dt><dd>The control ID assigned to the ControllableFragment that owns this callback</dd>
 	 * <dt>arg2</dt><dd>The {@code what} passed as a parameter that needs to be dispatched</dd>
 	 * <dt>obj</dt><dd>{@link Message} that will get dispatched (the {@code what} will be added to it)</dd>
 	 * </dl>
 	 * obj is a message instance that will eventually contain what passed as parameter of this method.<br>
 	 * 
-	 * @param sourceControlId source control ID to set
 	 * @param what message ID to get dispatched by the controller
 	 * @return {@code true} if message could be sent, {@code false} otherwise	 */
-	protected final boolean sendToController(int sourceControlId, int what) {
-		return sendToController(sourceControlId, what, 0, 0, null);
-	}
+	boolean sendToController(int what);
 
 	/**
 	 * Sends a message to the controller via its supplied {@link Messenger}
-	 * <br>
+	 * <p>
+	 * A {@link ControllableFragmentInterface} can only communicate with the {@link FragmentControllerApplication}.
+	 * </p>
 	 * The sent message wraps the actual message that will be dispatched by the controller,
 	 * and has the following values :
 	 * <dl>
 	 * <dt>what</dt><dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
-	 * <dt>arg1</dt><dd>The source control ID passed as a parameter</dd>
+	 * <dt>arg1</dt><dd>The control ID assigned to the ControllableFragment that owns this callback</dd>
 	 * <dt>arg2</dt><dd>The {@code what} passed as a parameter that needs to be dispatched</dd>
 	 * <dt>obj</dt><dd>{@link Message} that will get dispatched (the {@code what} will be added to it)</dd>
 	 * </dl>
 	 * obj is a message instance that will eventually contain what, arg1 passed as parameters
 	 * of this method.<br>
 	 * 
-	 * @param sourceControlId source control ID to set
 	 * @param what message ID to get dispatched by the controller
 	 * @param arg1 first message int argument
 	 * @return {@code true} if message could be sent, {@code false} otherwise	 */
-	protected final boolean sendToController(int sourceControlId, int what, int arg1) {
-		return sendToController(sourceControlId, what, arg1, 0, null);
-	}
+	boolean sendToController(int what, int arg1);
 
 	/**
 	 * Sends a message to the controller via its supplied {@link Messenger}
-	 * <br>
+	 * <p>
+	 * A {@link ControllableFragmentInterface} can only communicate with the {@link FragmentControllerApplication}.
+	 * </p>
 	 * The sent message wraps the actual message that will be dispatched by the controller,
 	 * and has the following values :
 	 * <dl>
 	 * <dt>what</dt><dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
-	 * <dt>arg1</dt><dd>The source control ID passed as a parameter</dd>
+	 * <dt>arg1</dt><dd>The control ID assigned to the ControllableFragment that owns this callback</dd>
 	 * <dt>arg2</dt><dd>The {@code what} passed as a parameter that needs to be dispatched</dd>
 	 * <dt>obj</dt><dd>{@link Message} that will get dispatched (the {@code what} will be added to it)</dd>
 	 * </dl>
 	 * obj is a message instance that will eventually contain what, obj passed as parameters
 	 * of this method.<br>
 	 * 
-	 * @param sourceControlId source control ID to set
 	 * @param what message ID to get dispatched by the controller
 	 * @param obj Object argument
 	 * @return {@code true} if message could be sent, {@code false} otherwise
 	 */
-	protected final boolean sendToController(int sourceControlId, int what, Object obj) {
-		return sendToController(sourceControlId, what, 0, 0, obj);
-	}
+	boolean sendToController(int what, Object obj);
 
 	/**
 	 * Sends a message to the controller via its supplied {@link Messenger}
-	 * <br>
+	 * <p>
+	 * A {@link ControllableFragmentInterface} can only communicate with the {@link FragmentControllerApplication}.
+	 * </p>
 	 * The sent message wraps the actual message that will be dispatched by the controller,
 	 * and has the following values :
 	 * <dl>
 	 * <dt>what</dt><dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
-	 * <dt>arg1</dt><dd>The source control ID passed as a parameter</dd>
+	 * <dt>arg1</dt><dd>The control ID assigned to the ControllableFragment that owns this callback</dd>
 	 * <dt>arg2</dt><dd>The {@code what} passed as a parameter that needs to be dispatched</dd>
 	 * <dt>obj</dt><dd>{@link Message} that will get dispatched (the {@code what} will be added to it)</dd>
 	 * </dl>
 	 * obj is a message instance that will eventually contain what, arg1, arg2 passed as parameters
 	 * of this method.<br>
 	 * 
-	 * @param sourceControlId source control ID to set
 	 * @param what message ID to get dispatched by the controller
 	 * @param arg1 first message int argument
 	 * @param arg2 second message int argment
 	 * @return {@code true} if message could be sent, {@code false} otherwise
 	 */
-	protected final boolean sendToController(int sourceControlId, int what, int arg1, int arg2) {
-		return sendToController(sourceControlId, what, arg1, arg2, null);
-	}
+	boolean sendToController(int what, int arg1, int arg2);
 
 	/**
 	 * Sends a message to the controller via its supplied {@link Messenger}
-	 * <br>
+	 * <p>
+	 * A {@link ControllableFragmentInterface} can only communicate with the {@link FragmentControllerApplication}.
+	 * </p>
 	 * The sent message wraps the actual message that will be dispatched by the controller,
 	 * and has the following values :
 	 * <dl>
 	 * <dt>what</dt><dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
-	 * <dt>arg1</dt><dd>The source control ID passed as a parameter</dd>
+	 * <dt>arg1</dt><dd>The control ID assigned to the ControllableFragment that owns this callback</dd>
 	 * <dt>arg2</dt><dd>The {@code what} passed as a parameter that needs to be dispatched</dd>
 	 * <dt>obj</dt><dd>{@link Message} that will get dispatched (the {@code what} will be added to it)</dd>
 	 * </dl>
 	 * obj is a message instance that will eventually contain what, arg1, obj passed as parameters
 	 * of this method.<br>
 	 * 
-	 * @param sourceControlId source control ID to set
 	 * @param what message ID to get dispatched by the controller
 	 * @param arg1 first message int argument
 	 * @param obj Object argument
 	 * @return {@code true} if message could be sent, {@code false} otherwise
 	 */
-	protected final boolean sendToController(int sourceControlId, int what, int arg1, Object obj) {
-		return sendToController(sourceControlId, what, arg1, 0, obj);
-	}
+	boolean sendToController(int what, int arg1, Object obj);
 	
 	/**
 	 * Sends a message to the controller via its supplied {@link Messenger}
-	 * <br>
+	 * <p>
+	 * A {@link ControllableFragmentInterface} can only communicate with the {@link FragmentControllerApplication}.
+	 * </p>
 	 * The sent message wraps the actual message that will be dispatched by the controller,
 	 * and has the following values :
 	 * <dl>
 	 * <dt>what</dt><dd>{@link FragmentControllerApplication#MSG_DISPATCH_MESSAGE} => Dispatches the message in the controller</dd>
-	 * <dt>arg1</dt><dd>The source control ID passed as a parameter</dd>
+	 * <dt>arg1</dt><dd>The control ID assigned to the ControllableFragment that owns this callback</dd>
 	 * <dt>arg2</dt><dd>The {@code what} passed as a parameter that needs to be dispatched</dd>
 	 * <dt>obj</dt><dd>{@link Message} that will get dispatched (the {@code what} will be added to it)</dd>
 	 * </dl>
 	 * obj is a message instance that will eventually contain what, arg1, arg2, obj passed as parameters
 	 * of this method.<br>
 	 * 
-	 * @param sourceControlId source control ID to set
 	 * @param what message ID to get dispatched by the controller
 	 * @param arg1 first message int argument
 	 * @param arg2 second message int argment
 	 * @param obj Object argument
 	 * @return {@code true} if message could be sent, {@code false} otherwise
 	 */
-	protected final boolean sendToController(int sourceControlId, int what, int arg1, int arg2, Object obj) {
-		Messenger messenger = getController().getMessenger();
-		if (null != messenger) {
-			Message m = Message.obtain();
-			m.what = FragmentControllerInterface.MSG_DISPATCH_MESSAGE;
-			m.arg1 = sourceControlId;
-			m.arg2 = what;
-			m.obj = FragmentControllerInterface.CallbackMessage.obtain(arg1, arg2, obj);
-			Bundle b = new Bundle();
-			b.putString("controllableName", getControllableName());
-			m.setData(b);
-			try {
-				messenger.send(m);
-			} catch (RemoteException e) {
-				e.printStackTrace();
-				return false;
-			}
-		}
-		return true;
-	}
+	boolean sendToController(int what, int arg1, int arg2, Object obj);
 
-	protected final void sendToUi(Runnable runnable) {
-		getActivity().runOnUiThread(runnable);
-	}
-	
+	/**
+	 * Returns true if the current callback runs in the UI thread
+	 * <p>
+	 * This may be used within the {@linkplain Callback#handleMessage(Message)} to force
+	 * certain operations to run in the UI thread.
+	 * </p>
+	 * 
+	 * @return true if callback runs in the UI thread, false otherwise
+	 */
+	boolean runsOnUiThread();
 
-	protected final String getControllableName() {
-		return mControllable.getControllableName();
-	}
-	
-	protected FragmentControllerInterface<FM,FT> getController() {
-		return mController;
-	}
-
-	protected ControllableActivityInterface<FM,FT> getControllableActivity() {
-		return mControllable;
-	}
-	
-	protected final Context getContext() {
-		return (Context) mControllable;
-	}
-	
-	protected final Activity getActivity() {
-		return (Activity) mControllable;
-	}
-
-	protected abstract boolean doHandleMessage(int sourceControlId, Message msg);
-
-
-	/** Reference to the controller */
-	private FragmentControllerInterface<FM,FT> mController;
-	
-	/** Controllable name */
-	private ControllableActivityInterface<FM,FT> mControllable;
+	/**
+	 * Sends the specified Runnable to run on the UI thread
+	 * 
+	 * @param runnable the task to run on the UI thread
+	 * @return itself for chaining
+	 */	
+	ControllableFragmentCallbackInterface sendToUi(Runnable runnable);
 }

@@ -16,11 +16,7 @@
 
 package org.ymkm.lib.controller.support;
 
-import org.ymkm.lib.controller.core.ControllableActivity;
-
 import android.app.Application;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
 /**
  * TODO
@@ -33,15 +29,15 @@ public class FragmentControllerApplication extends Application {
 		super.onCreate();
 	}
 
-	public void register(ControllableActivity<FragmentManager, FragmentTransaction> controllable) {
+	public final void register(ControllableActivity controllable) {
 		_controller.register(controllable);
 	}
 
-	public void unregister(ControllableActivity<FragmentManager, FragmentTransaction> controllable) {
+	public final void unregister(ControllableActivity controllable) {
 		_controller.unregister(controllable);
 	}
 
-	public FragmentController getController() {
+	public final FragmentController getController() {
 		return _controller;
 	}
 

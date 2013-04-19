@@ -20,8 +20,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ymkm.lib.controller.core.ControllableActivity;
-
 import android.app.Application;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -42,7 +40,7 @@ import android.support.v4.app.FragmentTransaction;
  * 
  * @author yoann@ymkm.org
  */
-public abstract class ControlledActivity extends FragmentActivity implements ControllableActivity<FragmentManager,FragmentTransaction> {
+public abstract class ControlledActivity extends FragmentActivity implements ControllableActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

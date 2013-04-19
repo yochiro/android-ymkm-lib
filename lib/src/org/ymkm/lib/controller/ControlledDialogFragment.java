@@ -16,17 +16,13 @@
 
 package org.ymkm.lib.controller;
 
-import org.ymkm.lib.controller.core.ControllableActivity;
-import org.ymkm.lib.controller.core.ControllableFragment;
-import org.ymkm.lib.controller.core.ControllableFragmentCallback;
-import org.ymkm.lib.controller.core.ControlledFragmentCallback;
-import org.ymkm.lib.controller.core.ControlledFragmentException;
-import org.ymkm.lib.controller.core.FragmentControllerInterface;
+import org.ymkm.lib.controller.core.ControllableFragmentException;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -39,7 +35,7 @@ import android.os.RemoteException;
  * Defines a {@link Fragment} that is controllable by a {@link FragmentControllerApplication}.
  * 
  */
-@TargetApi(11)
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public abstract class ControlledDialogFragment extends DialogFragment implements ControllableFragment {
 
 	/**
@@ -52,11 +48,11 @@ public abstract class ControlledDialogFragment extends DialogFragment implements
 	 *            {@code true} if a new thread should be created for this
 	 *            fragment, {@code false} to let it run in the current thread
 	 * @return A new instance of {@linkplain ControllableFragment}
-	 * @throws ControlledFragmentException
+	 * @throws ControllableFragmentException
 	 *             if instantiation failed
 	 */
 	public static ControllableFragment createFragment(Class<? extends ControllableFragment> f, boolean runsInOwnThread)
-			throws ControlledFragmentException {
+			throws ControllableFragmentException {
 		return createFragment(f, runsInOwnThread, new Bundle());
 	}
 
@@ -71,11 +67,11 @@ public abstract class ControlledDialogFragment extends DialogFragment implements
 	 * @param f
 	 *            the subclass of {@linkplain ControlledDialogFragment} to instantiate
 	 * @return A new instance of {@linkplain ControllableFragment}
-	 * @throws ControlledFragmentException
+	 * @throws ControllableFragmentException
 	 *             if instantiation failed
 	 */
 	public static ControllableFragment createFragment(Class<? extends ControllableFragment> f)
-			throws ControlledFragmentException {
+			throws ControllableFragmentException {
 		return createFragment(f, false, new Bundle());
 	}
 
@@ -92,11 +88,11 @@ public abstract class ControlledDialogFragment extends DialogFragment implements
 	 * @param args
 	 *            optional arguments to pass to the fragment as a bundle
 	 * @return A new instance of {@linkplain ControllableFragment}
-	 * @throws ControlledFragmentException
+	 * @throws ControllableFragmentException
 	 *             if instantiation failed
 	 */
 	public static ControllableFragment createFragment(Class<? extends ControllableFragment> f, Bundle args)
-			throws ControlledFragmentException {
+			throws ControllableFragmentException {
 		assert(null != args);
 		return createFragment(f, false, args);
 	}
@@ -111,11 +107,11 @@ public abstract class ControlledDialogFragment extends DialogFragment implements
 	 *            {@code true} if a new thread should be created for this
 	 *            fragment, {@code false} to let it run in the current thread
 	 * @return A new instance of {@linkplain ControllableFragment}
-	 * @throws ControlledFragmentException
+	 * @throws ControllableFragmentException
 	 *             if instantiation failed
 	 */
 	public static ControllableFragment createFragment(Class<? extends ControllableFragment> f, boolean runsInOwnThread,
-			Bundle args) throws ControlledFragmentException {
+			Bundle args) throws ControllableFragmentException {
 		assert(null != args);
 		try {
 			ControlledDialogFragment fragment = (ControlledDialogFragment) f.newInstance();
@@ -124,10 +120,10 @@ public abstract class ControlledDialogFragment extends DialogFragment implements
 			return fragment;
 		} catch (java.lang.InstantiationException e) {
 			e.printStackTrace();
-			throw new ControlledFragmentException(e.getMessage());
+			throw new ControllableFragmentException(e.getMessage());
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-			throw new ControlledFragmentException(e.getMessage());
+			throw new ControllableFragmentException(e.getMessage());
 		}
 	}
 
@@ -213,8 +209,8 @@ public abstract class ControlledDialogFragment extends DialogFragment implements
 	public void onResume() {
 		super.onResume();
 		Activity activity = getActivity();
-		if (activity instanceof ControllableActivity<?,?>) {
-			FragmentControllerInterface<?,?> controller = ((ControllableActivity<?,?>)activity).getController();
+		if (activity instanceof ControllableActivity) {
+			FragmentController controller = ((ControllableActivity)activity).getController();
 			mControllerMessenger = controller.getMessenger();
 		}
 
@@ -282,12 +278,11 @@ public abstract class ControlledDialogFragment extends DialogFragment implements
 	 * 
 	 * @return the callback, or {@code null} in case of failure
 	 */
-	@Override
-	public final ControllableFragmentCallback getCallback() {
+	private ControlledFragmentCallback getCallback() {
 		if (null != doGetCallbackClass()) {
 			try {
 				return ControlledFragmentCallback.createCallback(doGetCallbackClass(), this);
-			} catch (ControlledFragmentException e) {
+			} catch (ControllableFragmentException e) {
 				e.printStackTrace();
 			}
 		}
@@ -645,7 +640,7 @@ public abstract class ControlledDialogFragment extends DialogFragment implements
 	 * @return itself for chaining
 	 */
 	@Override
-	public final ControllableFragment sendToUi(Runnable runnable) {
+	public final ControlledDialogFragment sendToUi(Runnable runnable) {
 		if (null != getActivity()) {
 			getActivity().runOnUiThread(runnable);
 		}

@@ -14,27 +14,21 @@
  * limitations under the License.
  ******************************************************************************/
 
-package org.ymkm.lib.controller.support;
+package org.ymkm.lib.controller;
 
-import org.ymkm.lib.controller.core.FragmentControllerCallbackAbstract;
+import java.util.List;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import org.ymkm.lib.controller.core.ControllableActivityInterface;
 
-public abstract class FragmentControllerCallback extends
-		FragmentControllerCallbackAbstract<FragmentManager, FragmentTransaction> {
+import android.annotation.TargetApi;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.os.Build;
 
-	public FragmentControllerCallback(ControllableActivity controllable, FragmentController controller) {
-		super(controllable, controller);
-	}
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+public interface ControllableActivity extends ControllableActivityInterface<FragmentManager, FragmentTransaction> {
 
-	@Override
-	protected final ControllableActivity getControllableActivity() {
-		return (ControllableActivity) super.getControllableActivity();
-	}
+	FragmentController getController();
 
-	@Override
-	protected final FragmentController getController() {
-		return (FragmentController) super.getController();
-	}
+	List<Class<? extends FragmentControllerCallback>> getCallbacks();
 }

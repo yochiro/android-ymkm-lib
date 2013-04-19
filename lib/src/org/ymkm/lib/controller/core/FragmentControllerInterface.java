@@ -71,68 +71,68 @@ public interface FragmentControllerInterface<FM, FT> extends MessageCallback, Ru
 	}
 
 	/**
-	 * Registers a new {@linkplain ControllableActivity} to this controller
+	 * Registers a new {@linkplain ControllableActivityInterface} to this controller
 	 * 
 	 * @param controllable
-	 *            the {@linkplain ControllableActivity} to register
+	 *            the {@linkplain ControllableActivityInterface} to register
 	 * @return the FragmentControllerApplication for chaining
 	 */
-	FragmentControllerInterface<FM, FT> register(ControllableActivity<FM, FT> controllable);
+	FragmentControllerInterface<FM, FT> register(ControllableActivityInterface<FM, FT> controllable);
 
 	/**
 	 * Unregisters the {@link FragmentControllerApplication} from the current activity.
 	 * 
 	 * @param controllable
-	 *            the {@linkplain ControllableActivity} to unregister
+	 *            the {@linkplain ControllableActivityInterface} to unregister
 	 * @return the FragmentControllerApplication for chaining
 	 */
-	FragmentControllerInterface<FM, FT> unregister(ControllableActivity<FM, FT> controllable);
+	FragmentControllerInterface<FM, FT> unregister(ControllableActivityInterface<FM, FT> controllable);
 
-	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
-			Class<? extends ControllableFragment> fragmentClass) throws ControlledFragmentException,
+	FragmentControllerInterface<FM, FT> add(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId,
+			Class<? extends ControllableFragmentInterface> fragmentClass) throws ControllableFragmentException,
 			FragmentControllerException;
 
-	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
-			Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread)
-			throws ControlledFragmentException, FragmentControllerException;
+	FragmentControllerInterface<FM, FT> add(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId,
+			Class<? extends ControllableFragmentInterface> fragmentClass, boolean runsInNewThread)
+			throws ControllableFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
-			int containerViewId, Class<? extends ControllableFragment> fragmentClass)
-			throws ControlledFragmentException, FragmentControllerException;
+	FragmentControllerInterface<FM, FT> add(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, Class<? extends ControllableFragmentInterface> fragmentClass)
+			throws ControllableFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
-			int containerViewId, Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread)
-			throws ControlledFragmentException, FragmentControllerException;
+	FragmentControllerInterface<FM, FT> add(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, Class<? extends ControllableFragmentInterface> fragmentClass, boolean runsInNewThread)
+			throws ControllableFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
-			Class<? extends ControllableFragment> fragmentClass, Bundle args) throws ControlledFragmentException,
+	FragmentControllerInterface<FM, FT> add(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId,
+			Class<? extends ControllableFragmentInterface> fragmentClass, Bundle args) throws ControllableFragmentException,
 			FragmentControllerException;
 
-	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
-			Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread, Bundle args)
-			throws ControlledFragmentException, FragmentControllerException;
+	FragmentControllerInterface<FM, FT> add(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId,
+			Class<? extends ControllableFragmentInterface> fragmentClass, boolean runsInNewThread, Bundle args)
+			throws ControllableFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
-			int containerViewId, Class<? extends ControllableFragment> fragmentClass, Bundle args)
-			throws ControlledFragmentException, FragmentControllerException;
+	FragmentControllerInterface<FM, FT> add(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, Class<? extends ControllableFragmentInterface> fragmentClass, Bundle args)
+			throws ControllableFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
-			int containerViewId, Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread,
-			Bundle args) throws ControlledFragmentException, FragmentControllerException;
+	FragmentControllerInterface<FM, FT> add(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, Class<? extends ControllableFragmentInterface> fragmentClass, boolean runsInNewThread,
+			Bundle args) throws ControllableFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
-			ControllableFragment fragment) throws ControlledFragmentException, FragmentControllerException;
+	FragmentControllerInterface<FM, FT> add(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId,
+			ControllableFragmentInterface fragment) throws ControllableFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM, FT> add(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
-			int containerViewId, ControllableFragment fragment) throws ControlledFragmentException,
+	FragmentControllerInterface<FM, FT> add(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, ControllableFragmentInterface fragment) throws ControllableFragmentException,
 			FragmentControllerException;
 
 	FragmentControllerInterface<FM, FT> addToBackStack(FT ft, String name) throws FragmentControllerException;
 
-	FragmentControllerInterface<FM, FT> show(final ControllableActivity<FM, FT> controllable, FT ft, int controlId)
+	FragmentControllerInterface<FM, FT> show(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId)
 			throws FragmentControllerException;
 
-	FragmentControllerInterface<FM, FT> hide(final ControllableActivity<FM, FT> controllable, FT ft, int controlId)
+	FragmentControllerInterface<FM, FT> hide(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId)
 			throws FragmentControllerException;
 
 	FragmentControllerInterface<FM, FT> setTransition(FT ft, int transit) throws FragmentControllerException;
@@ -145,34 +145,34 @@ public interface FragmentControllerInterface<FM, FT> extends MessageCallback, Ru
 	FragmentControllerInterface<FM, FT> setCustomAnimations(FT ft, int enter, int exit, int popEnter, int popExit)
 			throws FragmentControllerException;
 
-	FragmentControllerInterface<FM, FT> replace(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
-			int containerViewId, Class<? extends ControllableFragment> fragmentClass)
-			throws ControlledFragmentException, FragmentControllerException;
+	FragmentControllerInterface<FM, FT> replace(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, Class<? extends ControllableFragmentInterface> fragmentClass)
+			throws ControllableFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM, FT> replace(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
-			int containerViewId, Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread)
-			throws ControlledFragmentException, FragmentControllerException;
+	FragmentControllerInterface<FM, FT> replace(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, Class<? extends ControllableFragmentInterface> fragmentClass, boolean runsInNewThread)
+			throws ControllableFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM, FT> replace(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
-			int containerViewId, Class<? extends ControllableFragment> fragmentClass, Bundle args)
-			throws ControlledFragmentException, FragmentControllerException;
+	FragmentControllerInterface<FM, FT> replace(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, Class<? extends ControllableFragmentInterface> fragmentClass, Bundle args)
+			throws ControllableFragmentException, FragmentControllerException;
 
-	FragmentControllerInterface<FM, FT> replace(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
-			int containerViewId, Class<? extends ControllableFragment> fragmentClass, boolean runsInNewThread,
-			Bundle args) throws ControlledFragmentException, FragmentControllerException;
+	FragmentControllerInterface<FM, FT> replace(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, Class<? extends ControllableFragmentInterface> fragmentClass, boolean runsInNewThread,
+			Bundle args) throws ControllableFragmentException, FragmentControllerException;
 	
-	FragmentControllerInterface<FM, FT> replace(final ControllableActivity<FM, FT> controllable, FT ft, int controlId,
-			int containerViewId, ControllableFragment fragment);
+	FragmentControllerInterface<FM, FT> replace(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId,
+			int containerViewId, ControllableFragmentInterface fragment);
 
-	FragmentControllerInterface<FM, FT> remove(final ControllableActivity<FM, FT> controllable, FT ft, int controlId)
+	FragmentControllerInterface<FM, FT> remove(final ControllableActivityInterface<FM, FT> controllable, FT ft, int controlId)
 			throws FragmentControllerException;
 
 	boolean hasControlId(final String controllableName, int controlId);
 
-	FragmentControllerInterface<FM, FT> addCallback(ControllableActivity<FM, FT> controllable,
+	FragmentControllerInterface<FM, FT> addCallback(ControllableActivityInterface<FM, FT> controllable,
 			FragmentControllerCallbackAbstract<FM, FT> callback);
 
-	FragmentControllerInterface<FM, FT> removeCallback(ControllableActivity<FM, FT> controllable,
+	FragmentControllerInterface<FM, FT> removeCallback(ControllableActivityInterface<FM, FT> controllable,
 			FragmentControllerCallbackAbstract<FM, FT> callback);
 
 	boolean sendTo(final String controllableName, int targetControlId, int what);
@@ -342,7 +342,7 @@ public interface FragmentControllerInterface<FM, FT> extends MessageCallback, Ru
 	 * @param arg1
 	 *            first message int argument
 	 * @param arg2
-	 *            second message int argment
+	 *            second message int argument
 	 * @param obj
 	 *            Object argument
 	 * @return {@code true} if message could be sent, {@code false} otherwise
@@ -351,5 +351,7 @@ public interface FragmentControllerInterface<FM, FT> extends MessageCallback, Ru
 
 	Messenger getMessengerFor(final String controllableName, int controlId);
 
-	ControllableFragment getFragmentFor(final String controllableName, int controlId);
+	Object getFragmentFor(final String controllableName, int controlId);
+	
+	ControllableFragmentInterface getControllableFragmentFor(final String controllableName, int controlId);
 }

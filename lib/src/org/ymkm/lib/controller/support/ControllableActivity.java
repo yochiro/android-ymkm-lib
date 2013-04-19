@@ -16,25 +16,16 @@
 
 package org.ymkm.lib.controller.support;
 
-import org.ymkm.lib.controller.core.FragmentControllerCallbackAbstract;
+import java.util.List;
+
+import org.ymkm.lib.controller.core.ControllableActivityInterface;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-public abstract class FragmentControllerCallback extends
-		FragmentControllerCallbackAbstract<FragmentManager, FragmentTransaction> {
+public interface ControllableActivity extends ControllableActivityInterface<FragmentManager, FragmentTransaction> {
 
-	public FragmentControllerCallback(ControllableActivity controllable, FragmentController controller) {
-		super(controllable, controller);
-	}
+	FragmentController getController();
 
-	@Override
-	protected final ControllableActivity getControllableActivity() {
-		return (ControllableActivity) super.getControllableActivity();
-	}
-
-	@Override
-	protected final FragmentController getController() {
-		return (FragmentController) super.getController();
-	}
+	List<Class<? extends FragmentControllerCallback>> getCallbacks();
 }
