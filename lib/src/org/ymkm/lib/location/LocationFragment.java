@@ -18,6 +18,9 @@ package org.ymkm.lib.location;
 
 import java.util.List;
 
+import org.ymkm.lib.controller.ControlledFragment;
+import org.ymkm.lib.controller.ControlledFragmentCallback;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -35,9 +38,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-
-import org.ymkm.lib.controller.ControlledFragment;
-import org.ymkm.lib.controller.core.ControlledFragmentCallback;
 
 /**
  * Honeycomb and newer version compatible fragment that handles the localization

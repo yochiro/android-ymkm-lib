@@ -18,6 +18,11 @@ package org.ymkm.lib.location.support;
 
 import java.util.List;
 
+import org.ymkm.lib.controller.support.ControlledFragment;
+import org.ymkm.lib.controller.support.ControlledFragmentCallback;
+import org.ymkm.lib.location.LocationConfig;
+import org.ymkm.lib.location.LocationUpdatedListener;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -33,11 +38,6 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-
-import org.ymkm.lib.controller.core.ControlledFragmentCallback;
-import org.ymkm.lib.controller.support.ControlledFragment;
-import org.ymkm.lib.location.LocationConfig;
-import org.ymkm.lib.location.LocationUpdatedListener;
 
 /**
  * support v4 compatible fragment that handles the localization logic.
