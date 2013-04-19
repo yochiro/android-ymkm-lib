@@ -113,11 +113,11 @@ public abstract class ControlledActivity extends Activity implements Controllabl
 	}
 	
 	/**
-	 * Default implementation returns the canonical class name + instance hash code
+	 * Default implementation returns the canonical class name
 	 */
 	@Override
 	public String getControllableName() {
-		return String.valueOf(this.getClass().getCanonicalName() + this.hashCode());
+		return String.valueOf(this.getClass().getCanonicalName());
 	}
 
 	/**
