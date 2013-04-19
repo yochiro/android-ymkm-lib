@@ -58,11 +58,11 @@ public abstract class ControlledActivity extends Activity implements Controllabl
 
 
 	/**
-	 * Registers this activity on start
+	 * Registers this activity on resume
 	 */
 	@Override
-	protected void onStart() {
-		super.onStart();
+	protected void onResume() {
+		super.onResume();
 		getController().register(this);
 	}
 
@@ -70,8 +70,8 @@ public abstract class ControlledActivity extends Activity implements Controllabl
 	 * Unregisters this activity on stop
 	 */
 	@Override
-	protected void onStop() {
-		super.onStop();
+	protected void onPause() {
+		super.onPause();
 		getController().unregister(this);
 	}
 

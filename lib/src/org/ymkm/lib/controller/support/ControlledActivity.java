@@ -58,8 +58,8 @@ public abstract class ControlledActivity extends FragmentActivity implements Con
 	 * Registers this activity on start
 	 */
 	@Override
-	protected void onStart() {
-		super.onStart();
+	protected void onResume() {
+		super.onResume();
 		getController().register(this);
 	}
 
@@ -67,8 +67,8 @@ public abstract class ControlledActivity extends FragmentActivity implements Con
 	 * Unregisters this activity on stop
 	 */
 	@Override
-	protected void onStop() {
-		super.onStop();
+	protected void onPause() {
+		super.onPause();
 		getController().unregister(this);
 	}
 
